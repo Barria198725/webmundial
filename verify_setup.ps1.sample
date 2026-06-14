@@ -1,0 +1,18 @@
+$apiPort = 3000
+$webPort = 8000
+
+Write-Output "Verificando API local..."
+try {
+    $apiResponse = Invoke-WebRequest -Uri "http://127.0.0.1:$apiPort/health" -UseBasicParsing -TimeoutSec 5
+    Write-Output "API disponible: $($apiResponse.StatusCode)"
+} catch {
+    Write-Output "API no disponible: $($_.Exception.Message)"
+}
+
+Write-Output "Verificando frontend Django local..."
+try {
+    $webResponse = Invoke-WebRequest -Uri "http://127.0.0.1:$webPort" -UseBasicParsing -TimeoutSec 5
+    Write-Output "Frontend disponible: $($webResponse.StatusCode)"
+} catch {
+    Write-Output "Frontend no disponible: $($_.Exception.Message)"
+}

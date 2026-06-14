@@ -1,0 +1,28 @@
+Proyecto: Laboratorio IB - Catálogo de Productos
+
+Estudiante: Irving Barria
+Cédula: 8-803-197
+Nivel: III año
+Asignatura: Desarrollo avanzado de aplicaciones web
+Carrera: Licenciatura en Desarrollo de Aplicaciones Tecnológicas
+Profesor: Angel Avila
+Año: 2026
+
+Descripción breve:
+Este repositorio contiene una API REST en Node.js/TypeScript (organizada con Clean Architecture), un frontend en Django que consume la API y una base de datos MySQL con script de inicialización. El proyecto está preparado para ejecutarse con Docker Compose o de forma local.
+
+Instrucciones básicas de ejecución (resumen):
+1. Levantar con Docker:
+   docker-compose up --build -d
+2. Verificar salud de la API:
+   curl -s http://127.0.0.1:3000/health
+3. Abrir frontend:
+   http://127.0.0.1:8000
+
+Notas:
+- El script `api/db/init.sql` inicializa la base de datos con `utf8mb4`.
+- Si hay problemas de codificación, se recomienda recrear el volumen de datos:
+  docker-compose down -v && docker-compose up --build -d
+
+Firma:
+Irving Barria

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo IB</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f4f9; }
+    .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,.08); }
+    h1 { margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #eef2ff; }
+    .error { color: #b91c1c; background: #fee2e2; padding: 12px; margin-bottom: 16px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Catálogo de Productos</h1>
+    {% if error %}
+      <div class="error">No se pudo obtener el catálogo: {{ error }}</div>
+    {% endif %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Producto</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in catalog_items %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>${{ item.price|floatformat:2 }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">No hay elementos en el catálogo.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
