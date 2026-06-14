@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Manual de despliegue y uso — Proyecto IB
 
 Este repositorio contiene una API en Node.js/TypeScript, un frontend sencillo en Django y una base de datos MySQL. Aquí explico cómo ejecutar el laboratorio, probarlo y qué hace cada componente, con instrucciones claras y prácticas.
@@ -166,3 +167,7 @@ Para la entrega se recomienda incluir:
 3. (Opcional) Un archivo `entrega.txt` con nombre, matrícula y nota breve sobre la ejecución.
 
 Si quieres que genere el archivo `entrega.txt` con tu nombre y matrícula, pásame los datos y lo añado.
+=======
+# Irving-entregable-1
+Este proyecto implementa una solución full-stack usando una arquitectura de tres capas desacopladas, orquestadas con Docker Compose
+>>>>>>> be2c4051a37f1cf8cd4d8d1b6fdf772d9d0259a7
