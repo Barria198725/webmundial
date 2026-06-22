@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="profile-page">
+    <div class="profile-card">
+      <span class="eyebrow">Mi Perfil</span>
+      <h1>Bienvenido</h1>
+      <p>Este es tu panel personal en Mundo Fútbol 2026.</p>
+      <p id="profile-email"></p>
+      <div class="profile-grid">
+        <div>
+          <h3>Puntos</h3>
+          <strong>120</strong>
+        </div>
+        <div>
+          <h3>Partidos pronosticados</h3>
+          <strong>18</strong>
+        </div>
+        <div>
+          <h3>Ranking</h3>
+          <strong>#5</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  (function(){
+    try{
+      const user = JSON.parse(localStorage.getItem('user')||'null');
+      const el = document.getElementById('profile-email');
+      if(user && el){ el.textContent = user.email ? ('Usuario: ' + user.email) : '' }
+    }catch(e){}
+  })();
+</script>
+{% endblock %}

@@ -1,26 +1,76 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Catálogo IB{% endblock %}</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css" integrity="sha512-+T0RPuaQ6gd4uZt0Hk0GJzNPB1RktIPocvd/rJADc3KMWwC6P0D5sR0TG5Xx4Z1T9kK7ZlTimmHcsCjw8xm8Zw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    body { font-family: Inter, system-ui, sans-serif; background: #f3f4f6; margin: 0; padding: 0; }
-    .layout { max-width: 960px; margin: 0 auto; padding: 28px; }
-    .card { background: #fff; border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,.08); padding: 24px; }
-    table { width: 100%; border-collapse: collapse; margin: 24px 0 0; }
-    th, td { padding: 14px 16px; border-bottom: 1px solid #e5e7eb; }
-    th { background: #eef2ff; text-align: left; }
-    .label { display: inline-flex; gap: 8px; align-items: center; margin-bottom: 16px; font-weight: 700; color: #1f2937; }
-    .error { color: #b91c1c; background: #fee2e2; padding: 16px; margin-bottom: 16px; border-radius: 12px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Mundo Fútbol 2026{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/hero.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/calendar.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/predictions.css' %}" />
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
-  <div class="layout">
-    <div class="card">
-      {% block content %}{% endblock %}
-    </div>
+  <script>
+    window.API_BASE_URL = "{{ api_base_url|default:'http://localhost:3000' }}";
+  </script>
+  <div class="app-shell">
+    <header class="navbar">
+      <div class="navbar__brand">MUNDO FÚTBOL 2026</div>
+      <nav class="navbar__links">
+        <a href="/">Inicio</a>
+        <a href="#calendar">Partidos</a>
+        <a href="#groups">Grupos</a>
+        <a href="#teams">Equipos</a>
+        <a href="#stadiums">Estadios</a>
+        <a href="#legends">Leyendas</a>
+        <a href="#news">Noticias</a>
+        <a href="#history">Historia</a>
+      </nav>
+      <div class="navbar__auth">
+        <a id="navbar-login-link" class="navbar__icon navbar__login" href="/login/" aria-label="Iniciar sesión">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="#0b0f19" opacity="0.9"/>
+            <path d="M21 21c0-3.866-3.582-7-9-7s-9 3.134-9 7" stroke="#0b0f19" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <div id="navbar-user" class="navbar__user" hidden>
+          <button id="user-menu-toggle" class="navbar__icon navbar__user-toggle" aria-label="Usuario">
+            <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="#0b0f19" opacity="0.9"/>
+              <path d="M21 21c0-3.866-3.582-7-9-7s-9 3.134-9 7" stroke="#0b0f19" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div id="user-menu" class="user-menu" aria-label="Menú de usuario">
+            <div class="user-menu__header">
+              <div class="user-menu__avatar" id="navbar-user-avatar">U</div>
+              <div>
+                <div class="user-menu__name" id="navbar-user-name">Usuario</div>
+                <div class="user-menu__email" id="navbar-user-email">usuario@correo.com</div>
+              </div>
+            </div>
+            <div class="user-menu__details">
+              <div class="user-menu__detail"><span>Puntos</span><strong id="navbar-user-points">0</strong></div>
+              <div class="user-menu__detail"><span>Perfil</span><a href="/profile/">Ver perfil</a></div>
+            </div>
+            <button id="logout-button" class="button button--secondary button--block">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {% block content %}{% endblock %}
   </div>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/countdown.js' %}"></script>
+  <script src="{% static 'js/api.js' %}"></script>
+  <script src="{% static 'js/calendar.js' %}"></script>
+  <script src="{% static 'js/predictions.js' %}"></script>
+  <script src="{% static 'js/auth.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>

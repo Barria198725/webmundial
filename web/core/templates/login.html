@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="login-page">
+    <div class="login-card">
+      <span class="eyebrow">Acceder</span>
+      <h1>Inicia sesión en Mundo Fútbol 2026</h1>
+      <form id="login-form" class="login-form">
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" placeholder="tucorreo@dominio.com" required />
+        </label>
+        <label>
+          <span>Contraseña</span>
+          <input name="password" type="password" placeholder="********" required />
+        </label>
+        <button type="submit" class="hero__cta">Acceder</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

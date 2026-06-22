@@ -7,7 +7,7 @@ const connectionName = process.env.DB_HOST || "db";
 const port = Number(process.env.DB_PORT || 3306);
 const user = process.env.DB_USER || "root";
 const password = process.env.DB_PASSWORD || "root";
-const database = process.env.DB_NAME || "catalogdb";
+const database = process.env.DB_NAME || "mundialdb";
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

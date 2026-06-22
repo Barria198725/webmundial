@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: catalogdb
+      MYSQL_DATABASE: mundialdb
     volumes:
       - ./api/db:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
@@ -21,7 +21,7 @@ services:
       DB_PORT: '3306'
       DB_USER: root
       DB_PASSWORD: root
-      DB_NAME: catalogdb
+      DB_NAME: mundialdb
     depends_on:
       - db
 
@@ -30,7 +30,7 @@ services:
     ports:
       - '8000:8000'
     environment:
-      API_BASE_URL: http://api:3000
+      API_BASE_URL: http://localhost:3000
     depends_on:
       - api
 
