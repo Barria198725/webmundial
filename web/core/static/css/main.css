@@ -1,4 +1,4 @@
-:root {
+egar:root {
   --background: #0b0f19;
   --card-bg: #161f30;
   --neon-green: #00ff87;
@@ -428,22 +428,51 @@ button, input {
 }
 
 .legend-card {
-  padding: 28px;
+  padding: 22px;
   border-radius: 24px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   display: grid;
-  place-items: center;
-  text-align: center;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+
+.accordion {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .legend-card:hover {
   transform: translateY(-6px);
   border-color: rgba(0,255,135,0.28);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
 }
 
-.accordion {
+.legend-card--player {
+  gap: 14px;
+}
+
+.legend-card__media {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(0,255,135,0.10), rgba(255,183,3,0.10));
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.legend-card__img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 22px;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
+
+.legend-card__name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
   padding-bottom: 120px;
 }
 
