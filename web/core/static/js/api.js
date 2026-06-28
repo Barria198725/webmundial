@@ -39,34 +39,67 @@ async function renderMatches() {
 }
 
 async function renderGroups() {
-  const container = document.querySelector("#group-table .data-placeholder");
-  if (!container) return;
+  const groupTable = document.getElementById("group-table");
+  if (!groupTable) return;
+  const placeholder = groupTable.querySelector(".data-placeholder");
+
   const groups = await fetchJson("/api/groups");
   if (!groups) {
-    container.textContent = "No se pudo cargar la tabla de grupos.";
+    placeholder.textContent = "No se pudo cargar la tabla de grupos.";
     return;
   }
 
-  const group = groups[0];
-  const rows = group.teams
-    .map((team) => `
-      <tr>
-        <td>${team.name}</td>
-        <td>${team.played}</td>
-        <td>${team.points}</td>
-        <td>${team.goalDiff}</td>
-      </tr>
-    `)
-    .join("");
 
+  const buildTable = (group) => {
+    // Orden: asume ya viene ordenado por puntos desc desde la API.
+    const rows = group.teams
+      .map(
+        (team, idx) => {
+          const pos = idx + 1;
+          const topClass = pos === 1 ? "top1" : pos === 2 ? "top2" : "";
+          // No tenemos GF/GA/GD desde la API actual (solo goalDiff).
+          // Para mantener el formato, dejamos GF/GA como "-" y calculamos DG.
+          return `
+            <tr class="${topClass}">
+              <td>${pos}</td>
+              <td>${team.name}</td>
+              <td>${team.points}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>${team.goalDiff >= 0 ? "+" + team.goalDiff : team.goalDiff}</td>
+            </tr>
+          `;
+        }
+      )
+      .join("");
+
+    return `
+      <div class="group-block">
+        <h3 class="group-block__title">Grupo ${group.group}</h3>
+        <table class="group-table">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Equipo</th>
+              <th>PTS</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>DG</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  };
+
+  // Mostrar todas las tablas de grupos (A, B, C...) en vez de solo la primera.
   container.outerHTML = `
-    <table class="score-table">
-      <thead>
-        <tr><th>Equipo</th><th>J</th><th>P</th><th>DG</th></tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
+    <div class="groups-container">
+      ${groups.map(buildTable).join("")}
+    </div>
   `;
+
 }
 
 async function renderScorers() {
