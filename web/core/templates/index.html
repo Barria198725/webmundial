@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -67,8 +68,46 @@
     <section id="calendar" class="calendar-panel">
       <div class="calendar-panel__left">
         <div class="section-header"><span>Partidos</span><h2>Calendario interactivo</h2></div>
-        <div class="calendar-card" id="match-list">
-          <div class="spinner">Cargando partidos...</div>
+        <div class="calendar-card calendar-card--interactive">
+          <div class="calendar-shell" id="calendar-shell">
+            <div class="calendar-shell__toolbar">
+              <button type="button" class="calendar-nav-button" id="calendar-prev" aria-label="Mes anterior">←</button>
+              <div class="calendar-shell__title">
+                <span id="calendar-month-label">Junio 2026</span>
+                <small id="calendar-month-meta">Selecciona un día para ver sus partidos</small>
+              </div>
+              <button type="button" class="calendar-nav-button" id="calendar-next" aria-label="Mes siguiente">→</button>
+            </div>
+
+            <div class="calendar-shell__body">
+              <div class="calendar-grid-wrap">
+                <div class="calendar-grid" id="calendar-grid" aria-label="Calendario mensual"></div>
+              </div>
+
+              <aside class="calendar-day-panel">
+                <div class="calendar-day-panel__header">
+                  <span>Día seleccionado</span>
+                  <h3 id="calendar-selected-date">Cargando...</h3>
+                </div>
+                <div id="calendar-day-summary" class="calendar-day-panel__summary">
+                  <div class="data-placeholder">Cargando calendario...</div>
+                </div>
+              </aside>
+            </div>
+          </div>
+
+          <div class="calendar-agenda">
+            <div class="calendar-agenda__header">
+              <div>
+                <span>Agenda del día</span>
+                <h3 id="calendar-agenda-title">Partidos del día</h3>
+              </div>
+              <div class="calendar-agenda__count" id="calendar-agenda-count">0 partidos</div>
+            </div>
+            <div id="calendar-match-list">
+              <div class="spinner">Cargando partidos...</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="calendar-panel__right">
