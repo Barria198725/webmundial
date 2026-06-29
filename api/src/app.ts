@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import worldRoutes from "./presentation/routes/worldRoutes";
 import authRoutes from "./presentation/routes/authRoutes";
+import catalogoRoutes from "./presentation/routes/catalogoRoutes";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api", worldRoutes);
+app.use("/api", catalogoRoutes);
 app.use("/auth", authRoutes);
 
 app.get("/health", (_, res) => {
