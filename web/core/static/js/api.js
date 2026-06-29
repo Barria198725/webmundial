@@ -44,11 +44,128 @@ async function renderGroups() {
   const placeholder = groupTable.querySelector(".data-placeholder");
 
   const groups = await fetchJson("/api/groups");
-  if (!groups) {
-    placeholder.textContent = "No se pudo cargar la tabla de grupos.";
+  if (placeholder) placeholder.textContent = "";
+
+  const fallbackGroups = [
+    {
+      group: "A",
+      teams: [
+        { name: "México", points: 0, goalDiff: 0 },
+        { name: "Ecuador", points: 0, goalDiff: 0 },
+        { name: "Croacia", points: 0, goalDiff: 0 },
+        { name: "Marruecos", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "B",
+      teams: [
+        { name: "Argentina", points: 0, goalDiff: 0 },
+        { name: "Canadá", points: 0, goalDiff: 0 },
+        { name: "Chile", points: 0, goalDiff: 0 },
+        { name: "Australia", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "C",
+      teams: [
+        { name: "España", points: 0, goalDiff: 0 },
+        { name: "Brasil", points: 0, goalDiff: 0 },
+        { name: "Japón", points: 0, goalDiff: 0 },
+        { name: "Sudáfrica", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "D",
+      teams: [
+        { name: "Francia", points: 0, goalDiff: 0 },
+        { name: "Portugal", points: 0, goalDiff: 0 },
+        { name: "Argelia", points: 0, goalDiff: 0 },
+        { name: "Eslovenia", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "E",
+      teams: [
+        { name: "Alemania", points: 0, goalDiff: 0 },
+        { name: "Colombia", points: 0, goalDiff: 0 },
+        { name: "Corea del Sur", points: 0, goalDiff: 0 },
+        { name: "Bélgica", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "F",
+      teams: [
+        { name: "Inglaterra", points: 0, goalDiff: 0 },
+        { name: "Senegal", points: 0, goalDiff: 0 },
+        { name: "Arabia Saudita", points: 0, goalDiff: 0 },
+        { name: "Nueva Zelanda", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "G",
+      teams: [
+        { name: "Uruguay", points: 0, goalDiff: 0 },
+        { name: "Serbia", points: 0, goalDiff: 0 },
+        { name: "Nigeria", points: 0, goalDiff: 0 },
+        { name: "Trinidad y Tobago", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "H",
+      teams: [
+        { name: "Holanda", points: 0, goalDiff: 0 },
+        { name: "Turquía", points: 0, goalDiff: 0 },
+        { name: "Cuba", points: 0, goalDiff: 0 },
+        { name: "Togo", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "I",
+      teams: [
+        { name: "Estados Unidos", points: 0, goalDiff: 0 },
+        { name: "Panamá", points: 0, goalDiff: 0 },
+        { name: "Suiza", points: 0, goalDiff: 0 },
+        { name: "Ghana", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "J",
+      teams: [
+        { name: "Polonia", points: 0, goalDiff: 0 },
+        { name: "Austria", points: 0, goalDiff: 0 },
+        { name: "Camerún", points: 0, goalDiff: 0 },
+        { name: "Costa de Marfil", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "K",
+      teams: [
+        { name: "Irán", points: 0, goalDiff: 0 },
+        { name: "Uzbekistán", points: 0, goalDiff: 0 },
+        { name: "Rep. Checa", points: 0, goalDiff: 0 },
+        { name: "China", points: 0, goalDiff: 0 },
+      ],
+    },
+    {
+      group: "L",
+      teams: [
+        { name: "Italia", points: 0, goalDiff: 0 },
+        { name: "Venezuela", points: 0, goalDiff: 0 },
+        { name: "Irlanda", points: 0, goalDiff: 0 },
+        { name: "Congo", points: 0, goalDiff: 0 },
+      ],
+    },
+  ];
+
+  const shouldUseFallback =
+    !groups || !Array.isArray(groups) || groups.length < 12;
+
+  const groupsToRender = shouldUseFallback ? fallbackGroups : groups;
+
+  if (!groupsToRender || groupsToRender.length === 0) {
+    container.outerHTML = "<div class='groups-container'>No hay datos de grupos disponibles.</div>";
     return;
   }
-
 
   const buildTable = (group) => {
     // Orden: asume ya viene ordenado por puntos desc desde la API.
@@ -96,7 +213,8 @@ async function renderGroups() {
   // Mostrar todas las tablas de grupos (A, B, C...) en vez de solo la primera.
   container.outerHTML = `
     <div class="groups-container">
-      ${groups.map(buildTable).join("")}
+      ${groupsToRender.map(buildTable).join("")}
+
     </div>
   `;
 
