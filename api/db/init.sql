@@ -86,6 +86,14 @@ CREATE TABLE IF NOT EXISTS predictions (
   UNIQUE KEY uk_predictions_user_match (user_id, match_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS catalog (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  category VARCHAR(100) DEFAULT 'General'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS legends (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(200) NOT NULL,
@@ -136,6 +144,12 @@ INSERT INTO standings (team_id, group_name, played, won, draw, lost, points, goa
   (2, 'A', 2, 1, 0, 1, 3, 0),
   (3, 'A', 2, 0, 0, 2, 0, -4)
 ON DUPLICATE KEY UPDATE played = VALUES(played), won = VALUES(won), draw = VALUES(draw), lost = VALUES(lost), points = VALUES(points), goal_diff = VALUES(goal_diff);
+
+INSERT INTO catalog (name, description, price, category) VALUES
+  ('Playera oficial', 'Playera oficial del Mundial 2026', 29.99, 'Merchandising'),
+  ('Balón de edición limitada', 'Balón oficial con diseño especial del torneo', 49.99, 'Equipamiento'),
+  ('Entrada VIP', 'Pase VIP para ver el partido desde la zona premium', 199.99, 'Entradas')
+ON DUPLICATE KEY UPDATE description = VALUES(description), price = VALUES(price), category = VALUES(category);
 
 INSERT INTO news (title, content) VALUES
   ('Lanzamiento Mundo Fútbol 2026', 'Bienvenido a la plataforma independiente del Mundial 2026.'),

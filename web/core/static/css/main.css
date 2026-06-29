@@ -56,30 +56,52 @@ button, input {
 .navbar__button {
   color: var(--gray);
   text-decoration: none;
-  transition: color 0.2s ease;
+  position: relative;
+  transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.navbar__links a,
-.navbar__button {
-  color: var(--gray);
-  text-decoration: none;
-  transition: color 0.2s ease, text-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+.navbar__links a {
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.navbar__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--neon-green);
+  opacity: 0;
+  transition: width 0.25s ease, opacity 0.25s ease;
+}
+
+.navbar__links a:hover::after,
+.navbar__links a:focus::after {
+  left: 0;
+  width: 100%;
+  opacity: 1;
 }
 
 .navbar__links a:hover,
-.navbar__links a:focus,
+.navbar__links a:focus {
+  color: var(--neon-green) !important;
+  text-shadow: 0 0 18px rgba(0, 255, 135, 0.9) !important;
+  transform: translateY(-1px) !important;
+}
+
+.navbar__links a:hover::after,
+.navbar__links a:focus::after {
+  width: 100%;
+  opacity: 1;
+}
+
 .navbar__button:hover,
 .navbar__button:focus {
   color: var(--neon-green) !important;
   text-shadow: 0 0 18px rgba(0, 255, 135, 0.8) !important;
   transform: translateY(-1px) !important;
-}
-
-.navbar__links a:hover,
-.navbar__links a:focus {
-  text-decoration: underline !important;
-  text-decoration-color: var(--neon-green) !important;
-  text-underline-offset: 6px !important;
 }
 
 .navbar__button {
@@ -211,13 +233,47 @@ button, input {
   min-height: 70vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 60px 40px 100px;
   overflow: hidden;
-  background-image: url("../images/estadio.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: rgba(11, 15, 25, 0.9);
   animation: hero-zoom 25s ease-in-out infinite alternate;
+}
+
+.hero__background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero__image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 120%;
+  min-width: 100%;
+  min-height: 100%;
+  max-width: none;
+  max-height: none;
+  opacity: 0.14;
+  object-fit: cover;
+  filter: blur(0.5px) saturate(1.08);
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 15, 25, 0.68) 0%, rgba(11, 15, 25, 0.94) 100%);
+  z-index: 1;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
 }
 
 .dashboard-row {
