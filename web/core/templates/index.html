@@ -8,52 +8,142 @@
   <main>
     <section id="hero" class="hero">
       <div class="hero__overlay"></div>
+      <div class="hero__background">
+        <img src="{% static 'images/estadio.png' %}" alt="Estadio" class="hero__image" />
+      </div>
       <div class="hero__content">
         <span class="eyebrow">Temporada Mundial</span>
         <h1>El Mundial FIFA 2026 ya tiene su hogar</h1>
         <p>Plataforma interactiva de estadísticas, predicciones y leyendas del fútbol.</p>
-        <div class="hero__countdown" data-target="2026-06-10T16:00:00Z">
-          <div><span id="days">0</span><small>días</small></div>
-          <div><span id="hours">0</span><small>horas</small></div>
-          <div><span id="minutes">0</span><small>minutos</small></div>
-          <div><span id="seconds">0</span><small>segundos</small></div>
-        </div>
-        <a class="hero__cta" href="#hosts">Explorar Mundial</a>
+        <a class="hero__cta" href="#final-countdown">Explorar Mundial</a>
       </div>
     </section>
+
+    <div class="dashboard-row">
+      <section id="final-countdown" class="final-countdown dashboard-card">
+        <div class="section-header">
+          <span>COUNTDOWN</span>
+          <h2>FINAL</h2>
+          <p class="section-description">19 Jul 2026 • Stadium 974</p>
+        </div>
+        <div id="countdown" class="final-countdown__cards" data-target="2026-07-19T18:00:00Z">
+          <div class="count-card" id="days-card">
+            <span class="count-card__value" id="days">00</span>
+            <span class="count-card__label">Days</span>
+          </div>
+          <div class="count-card" id="hours-card">
+            <span class="count-card__value" id="hours">00</span>
+            <span class="count-card__label">Hours</span>
+          </div>
+          <div class="count-card" id="minutes-card">
+            <span class="count-card__value" id="minutes">00</span>
+            <span class="count-card__label">Minutes</span>
+          </div>
+          <div class="count-card" id="seconds-card">
+            <span class="count-card__value" id="seconds">00</span>
+            <span class="count-card__label">Seconds</span>
+          </div>
+        </div>
+        <div class="final-countdown__status" id="countdown-status">Final kick-off soon.</div>
+      </section>
+
+      <article id="lastMatch" class="match-card match-card--last dashboard-card">
+        <div class="match-card__header">
+          <span class="eyebrow">Último resultado</span>
+          <span class="match-card__stage" id="lastMatchStatus">FINAL</span>
+        </div>
+        <div class="match-card__teams">
+          <div class="team team--home">
+            <div class="team__shield team__shield--home"><span class="team__logo">🇧🇷</span></div>
+            <span class="team__name" id="lastHomeTeam">BRAZIL</span>
+          </div>
+          <div class="match-score">
+            <span class="match-score__value" id="lastHomeScore">2</span>
+            <span class="match-score__separator">—</span>
+            <span class="match-score__value" id="lastAwayScore">1</span>
+          </div>
+          <div class="team team--away">
+            <div class="team__shield team__shield--away"><span class="team__logo">🇯🇵</span></div>
+            <span class="team__name" id="lastAwayTeam">JAPAN</span>
+          </div>
+        </div>
+        <div class="match-card__details">
+          <span id="lastMatchVenue">Stadium 974</span>
+          <span id="lastMatchDate">19 Jul 2026</span>
+          <span id="lastMatchTime">18:00 UTC</span>
+        </div>
+      </article>
+
+      <article id="nextMatch" class="match-card match-card--next dashboard-card">
+        <div class="match-card__header">
+          <span class="eyebrow">Próximo partido</span>
+          <span class="match-card__tag">Starts in</span>
+        </div>
+        <div class="match-card__teams">
+          <div class="team team--home">
+            <div class="team__shield team__shield--home"><span class="team__logo">🇩🇪</span></div>
+            <span class="team__name" id="nextHomeTeam">GERMANY</span>
+          </div>
+          <div class="match-vs">VS</div>
+          <div class="team team--away">
+            <div class="team__shield team__shield--away"><span class="team__logo">🇵🇾</span></div>
+            <span class="team__name" id="nextAwayTeam">PARAGUAY</span>
+          </div>
+        </div>
+        <div class="match-card__details match-card__details--next">
+          <span class="match-detail"><strong>City:</strong> <span id="nextMatchCity">Doha</span></span>
+          <span class="match-detail"><strong>Stadium:</strong> <span id="nextMatchVenue">Al Bayt</span></span>
+          <span class="match-detail"><strong>Time:</strong> <span id="nextMatchTime">16:30 UTC</span></span>
+        </div>
+        <div class="match-card__counter" id="nextMatchCountdown">01h 22m 11s</div>
+      </article>
+
+      <section id="sports-ticker" class="sports-ticker dashboard-card">
+        <div class="ticker-label">Live Feed</div>
+        <div class="ticker" id="ticker">
+          <div class="ticker__track">
+            <div class="ticker-item"><span class="ticker-item__flag">🇧🇷</span><span class="ticker-item__text">Brazil 2–1 Japan • Final</span></div>
+            <div class="ticker-item"><span class="ticker-item__flag">🇩🇪</span><span class="ticker-item__text">Germany vs Paraguay • 16:30</span></div>
+            <div class="ticker-item"><span class="ticker-item__flag">🇫🇷</span><span class="ticker-item__text">France vs Sweden • Tomorrow</span></div>
+            <div class="ticker-item"><span class="ticker-item__flag">🇪🇸</span><span class="ticker-item__text">Spain vs Argentina • 20:00</span></div>
+            <div class="ticker-item"><span class="ticker-item__flag">🇵🇹</span><span class="ticker-item__text">Portugal vs Mexico • 22:30</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <section id="hosts" class="hosts">
       <div class="section-header">
         <span>El Mundial Más Grande</span>
-        <h2>Tres naciones sede, un solo sueño.</h2>
+        <h2>Sedes del mundial</h2>
       </div>
       <div class="host-grid">
         <article class="host-card">
-          <div class="host-card__flag usa"></div>
-          <h3>Estados Unidos</h3>
-          <ul>
-            <li>Estadios: 10</li>
-            <li>Ciudades sede: 11</li>
-            <li>Partidos asignados: 60</li>
-          </ul>
+          <div class="host-card__flag">
+            <img src="{% static 'images/sedes/estados-unidos.png' %}" alt="Estados Unidos" />
+          </div>
+          <div class="host-card__meta">
+            <h3>Estados Unidos</h3>
+            <p>Una de las sedes principales del torneo.</p>
+          </div>
         </article>
         <article class="host-card">
-          <div class="host-card__flag mexico"></div>
-          <h3>México</h3>
-          <ul>
-            <li>Estadios: 3</li>
-            <li>Ciudades sede: 3</li>
-            <li>Partidos asignados: 10</li>
-          </ul>
+          <div class="host-card__flag">
+            <img src="{% static 'images/sedes/mexico.png' %}" alt="México" />
+          </div>
+          <div class="host-card__meta">
+            <h3>México</h3>
+            <p>Host de gran tradición futbolística en la competición.</p>
+          </div>
         </article>
         <article class="host-card">
-          <div class="host-card__flag canada"></div>
-          <h3>Canadá</h3>
-          <ul>
-            <li>Estadios: 3</li>
-            <li>Ciudades sede: 3</li>
-            <li>Partidos asignados: 10</li>
-          </ul>
+          <div class="host-card__flag">
+            <img src="{% static 'images/sedes/canada.png' %}" alt="Canadá" />
+          </div>
+          <div class="host-card__meta">
+            <h3>Canadá</h3>
+            <p>Completa la tríada de sedes del Mundial 2026.</p>
+          </div>
         </article>
       </div>
       <div class="host-debut">

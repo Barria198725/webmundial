@@ -11,6 +11,104 @@ async function fetchJson(path) {
   }
 }
 
+function updateText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
+}
+
+function formatSpanishDate(dateString) {
+  const date = new Date(dateString);
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+  return date.toLocaleDateString("es-ES", options);
+}
+
+function formatSpanishTime(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
+function matchStatusLabel(status) {
+  if (!status) return "FINAL";
+  const normalized = String(status).toLowerCase();
+  if (normalized.includes("final") || normalized.includes("finished")) return "FINAL";
+  if (normalized.includes("scheduled") || normalized.includes("upcoming")) return "UPCOMING";
+  return String(status).toUpperCase();
+}
+
+function populateTicker(matchItems) {
+  const tickerTrack = document.querySelector("#ticker .ticker__track");
+  if (!tickerTrack) return;
+
+  const items = matchItems.slice(0, 6).map((match) => {
+    const home = match.homeTeam || "Equipo A";
+    const away = match.awayTeam || "Equipo B";
+    const score = match.homeScore != null && match.awayScore != null ? `${match.homeScore}–${match.awayScore}` : "vs";
+    const stage = match.stage || "Match";
+    return `<div class="ticker-item">${home} ${score} ${away} • ${stage}</div>`;
+  });
+
+  tickerTrack.innerHTML = items.join("");
+}
+
+async function renderDashboard() {
+  const matches = await fetchJson("/api/matches");
+  if (!matches || !Array.isArray(matches)) return;
+
+  const now = new Date();
+  const finishedMatches = matches
+    .filter((match) => {
+      if (!match.date) return false;
+      const date = new Date(match.date);
+      return date <= now || ["final", "finished", "ended"].some((flag) => String(match.status || "").toLowerCase().includes(flag));
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const upcomingMatches = matches
+    .filter((match) => {
+      if (!match.date) return false;
+      const date = new Date(match.date);
+      return date > now && !["final", "finished", "ended"].some((flag) => String(match.status || "").toLowerCase().includes(flag));
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const lastMatch = finishedMatches[0] || matches[0];
+  const nextMatch = upcomingMatches[0] || matches[0];
+
+  if (lastMatch) {
+    updateText("lastMatchStatus", matchStatusLabel(lastMatch.status));
+    updateText("lastHomeTeam", lastMatch.homeTeam || "Home");
+    updateText("lastAwayTeam", lastMatch.awayTeam || "Away");
+    updateText("lastHomeScore", lastMatch.homeScore != null ? lastMatch.homeScore : "-");
+    updateText("lastAwayScore", lastMatch.awayScore != null ? lastMatch.awayScore : "-");
+    updateText("lastMatchVenue", lastMatch.venue || "Estadio");
+    updateText("lastMatchDate", lastMatch.date ? formatSpanishDate(lastMatch.date) : "Fecha");
+    updateText("lastMatchTime", lastMatch.date ? `${formatSpanishTime(lastMatch.date)} UTC` : "Hora");
+    updateText("lastMatchMVP", lastMatch.mvp ? `MVP: ${lastMatch.mvp}` : "MVP: TBD");
+  }
+
+  if (nextMatch) {
+    updateText("nextHomeTeam", nextMatch.homeTeam || "Home");
+    updateText("nextAwayTeam", nextMatch.awayTeam || "Away");
+    updateText("nextMatchCity", nextMatch.city || "Ciudad");
+    updateText("nextMatchVenue", nextMatch.venue || "Estadio");
+    updateText("nextMatchDate", nextMatch.date ? formatSpanishDate(nextMatch.date) : "Fecha");
+    updateText("nextMatchTime", nextMatch.date ? `${formatSpanishTime(nextMatch.date)} UTC` : "Hora");
+    if (window.updateNextMatchCountdown && nextMatch.date) {
+      window.updateNextMatchCountdown(nextMatch.date);
+    }
+  }
+
+  const finalMatch = matches.find((match) => {
+    if (!match.stage || !match.date) return false;
+    return String(match.stage).toLowerCase().includes("final") || String(match.status || "").toLowerCase().includes("final");
+  });
+  if (finalMatch && finalMatch.date && window.setCountdownTarget) {
+    window.setCountdownTarget(finalMatch.date);
+  }
+
+  populateTicker(matches);
+}
+
 async function renderMatches() {
   const container = document.getElementById("match-list");
   if (!container) return;
@@ -24,13 +122,13 @@ async function renderMatches() {
   const html = matches
     .map((match) => `
       <article class="match-card">
-        <div class="match-card__header"><strong>${match.stage}</strong><span>${new Date(match.date).toLocaleString()}</span></div>
+        <div class="match-card__header"><strong>${match.stage || "Partido"}</strong><span>${match.date ? new Date(match.date).toLocaleString("es-ES") : "Fecha"}</span></div>
         <div class="match-card__teams">
-          <span>${match.homeTeam}</span>
-          <strong>${match.homeScore ?? "-"} - ${match.awayScore ?? "-"}</strong>
-          <span>${match.awayTeam}</span>
+          <span>${match.homeTeam || "Home"}</span>
+          <strong>${match.homeScore != null ? match.homeScore : "-"} - ${match.awayScore != null ? match.awayScore : "-"}</strong>
+          <span>${match.awayTeam || "Away"}</span>
         </div>
-        <div class="match-card__venue">${match.venue}</div>
+        <div class="match-card__venue">${match.venue || "Estadio"}</div>
       </article>
     `)
     .join("");
@@ -242,6 +340,7 @@ async function renderScorers() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  renderDashboard();
   renderMatches();
   renderGroups();
   renderScorers();
