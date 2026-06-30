@@ -1,4 +1,4 @@
-:root {
+egar:root {
   --background: #0b0f19;
   --card-bg: #161f30;
   --neon-green: #00ff87;
@@ -976,23 +976,104 @@ button, input {
 }
 
 .legend-card {
-  padding: 28px;
+  padding: 22px;
   border-radius: 24px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   display: grid;
   place-items: center;
   text-align: center;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.accordion {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .legend-card:hover {
   transform: translateY(-6px);
   border-color: rgba(0,255,135,0.28);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
 }
 
-.accordion {
-  padding-bottom: 120px;
+.legend-card--player {
+  gap: 14px;
+}
+
+.legend-card__media {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(0,255,135,0.10), rgba(255,183,3,0.10));
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.legend-card__img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 22px;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
+
+.legend-card__name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+/* ====== Tablas de grupos ====== */
+.groups-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.group-block__title {
+  color: var(--neon-green);
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+}
+
+.group-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.group-table th,
+.group-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.group-table th {
+  background: rgba(30,144,255,0.35);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.group-table tr:hover td {
+  background: rgba(255,255,255,0.06);
+}
+
+.group-table tr:last-child td {
+  border-bottom: none;
+}
+
+.group-table .top1 {
+  background: rgba(212, 237, 218, 0.18);
+}
+
+.group-table .top2 {
+  background: rgba(255, 243, 205, 0.18);
 }
 
 .accordion__toggle {

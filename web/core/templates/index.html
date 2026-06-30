@@ -4,6 +4,7 @@
 
 {% block content %}
 
+
   <main>
     <section id="hero" class="hero">
       <div class="hero__overlay"></div>
@@ -156,7 +157,8 @@
       </div>
     </section>
 
-    <section id="calendar" class="calendar-panel">
+    <section id="groups" class="calendar-panel">
+
       <div class="calendar-panel__left">
         <div class="section-header"><span>Partidos</span><h2>Calendario interactivo</h2></div>
         <div class="calendar-card" id="match-list">
@@ -165,8 +167,8 @@
       </div>
       <div class="calendar-panel__right">
         <div class="table-card" id="group-table">
-          <div class="section-header"><span>Grupos</span><h2>Tabla Grupo A</h2></div>
-          <div class="data-placeholder">Cargando clasificación...</div>
+          <div class="section-header"><span>Grupos</span><h2>Tabla de Grupos (Mundial 2026)</h2></div>
+          <div class="data-placeholder">Cargando tabla de grupos...</div>
         </div>
         <div class="table-card" id="top-scorers">
           <div class="section-header"><span>Goleadores</span><h2>Más letales</h2></div>
@@ -174,6 +176,7 @@
         </div>
       </div>
     </section>
+
 
     <section id="predictions" class="predictions">
       <div class="predictions__panel">
@@ -209,7 +212,8 @@
 
     <section class="stats-grid">
       <article class="stat-card"><span>⚽</span><h3>Partidos Jugados</h3><strong>16</strong></article>
-      <article class="stat-card"><span>🏆</span><h3>Máximo Goleador</h3><strong>K. Mbappé</strong></article>
+      <article class="stat-card"><span>🏆</span><h3>Máximo Goleador</h3><strong>Lionel Messi</strong></article>
+
       <article class="stat-card"><span>🥅</span><h3>Más Goles</h3><strong>12</strong></article>
       <article class="stat-card"><span>👥</span><h3>Aficionados</h3><strong>1.8M</strong></article>
     </section>
@@ -217,25 +221,63 @@
     <section id="legends" class="legends">
       <div class="section-header"><span>Leyendas del Fútbol</span><h2>Iconos eternos</h2></div>
       <div class="legend-grid">
-        <article class="legend-card"><strong>Pelé</strong></article>
-        <article class="legend-card"><strong>Maradona</strong></article>
-        <article class="legend-card"><strong>Cruyff</strong></article>
-        <article class="legend-card"><strong>Ronaldo</strong></article>
-        <article class="legend-card"><strong>Messi</strong></article>
-        <article class="legend-card"><strong>Zidane</strong></article>
+        <article class="legend-card legend-card--player">
+          <div class="legend-card__media">
+            <img class="legend-card__img" src="{% static 'images/pele.png' %}" alt="Pelé" />
+          </div>
+          <h3 class="legend-card__name">Pelé</h3>
+        </article>
+
+        <article class="legend-card legend-card--player">
+          <div class="legend-card__media">
+            <img class="legend-card__img" src="{% static 'images/maradona.png' %}" alt="Maradona" />
+          </div>
+          <h3 class="legend-card__name">Maradona</h3>
+        </article>
+
+        <article class="legend-card legend-card--player">
+          <div class="legend-card__media">
+            <img class="legend-card__img" src="{% static 'images/cruyff.png' %}" alt="Cruyff" />
+          </div>
+          <h3 class="legend-card__name">Cruyff</h3>
+        </article>
+
+        <article class="legend-card legend-card--player">
+          <div class="legend-card__media">
+            <img class="legend-card__img" src="{% static 'images/ronaldo.png' %}" alt="Ronaldo" />
+          </div>
+          <h3 class="legend-card__name">Ronaldo</h3>
+        </article>
+
+        <article class="legend-card legend-card--player">
+          <div class="legend-card__media">
+            <img class="legend-card__img" src="{% static 'images/messi.png' %}" alt="Messi" />
+          </div>
+          <h3 class="legend-card__name">Messi</h3>
+        </article>
+
+        <article class="legend-card legend-card--player">
+          <div class="legend-card__media">
+            <img class="legend-card__img" src="{% static 'images/zidane.png' %}" alt="Zidane" />
+          </div>
+          <h3 class="legend-card__name">Zidane</h3>
+        </article>
       </div>
     </section>
 
+
     <section class="accordion" id="trivia">
-      <div class="section-header"><span>Datos Curiosos</span><h2>Historia del Mundial</h2></div>
+      <div class="section-header"><span>Datos Curiosos</span><h2>Historia del Mundial (hasta 2026)</h2></div>
       <button class="accordion__toggle">Mayor goleada</button>
-      <div class="accordion__panel"><p>Brasil 7-1 Suecia en 1950.</p></div>
+      <div class="accordion__panel"><p>La mayor goleada en una fase final de la Copa del Mundo fue Alemania 7-1 Brasil (Semifinal, 2014).</p></div>
       <button class="accordion__toggle">Más títulos</button>
-      <div class="accordion__panel"><p>Brasil con 5 trofeos.</p></div>
+      <div class="accordion__panel"><p>Brasil es el máximo ganador, con 5 títulos mundiales (1958, 1962, 1970, 1994 y 2002).</p></div>
       <button class="accordion__toggle">Jugador con más goles</button>
-      <div class="accordion__panel"><p>Miroslav Klose, 16 goles.</p></div>
+      <div class="accordion__panel"><p>Lionel Messi (Argentina) es el máximo goleador histórico de Mundiales con 16 tantos.</p></div>
+
       <button class="accordion__toggle">Mundial con más asistentes</button>
-      <div class="accordion__panel"><p>Brasil 2014 con más de 3.4M de aficionados.</p></div>
+      <div class="accordion__panel"><p>El Mundial de Brasil 2014 es uno de los más concurridos, con más de 3 millones de espectadores en total.</p></div>
     </section>
+
   </main>
 {% endblock %}
