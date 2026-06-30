@@ -33,6 +33,8 @@ services:
       API_BASE_URL: http://localhost:3000
     depends_on:
       - api
+    volumes:
+      - ./web:/usr/src/app
 
 volumes:
   db_data:

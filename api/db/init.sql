@@ -10,6 +10,14 @@ CREATE TABLE IF NOT EXISTS users (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS catalog (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  UNIQUE KEY uk_catalog_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS teams (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(200) NOT NULL,
@@ -126,6 +134,12 @@ INSERT INTO users (name, email, points) VALUES
   ('Carlos', 'carlos@example.com', 130),
   ('Ana', 'ana@example.com', 122)
 ON DUPLICATE KEY UPDATE email = VALUES(email);
+
+INSERT INTO catalog (name, description, price) VALUES
+  ('Balón oficial', 'Balón con diseño del Mundial 2026.', 59.99),
+  ('Camiseta oficial', 'Camiseta edición limitada del torneo.', 89.90),
+  ('Gorra de fan', 'Gorra con colores del país anfitrión.', 19.50)
+ON DUPLICATE KEY UPDATE description = VALUES(description), price = VALUES(price);
 
 INSERT INTO legends (name, bio) VALUES
   ('Pelé', 'Considerado uno de los mejores de la historia.'),
