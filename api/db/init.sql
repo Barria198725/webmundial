@@ -116,6 +116,13 @@ CREATE TABLE IF NOT EXISTS news (
   published_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS catalog (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Seed básico de ejemplo
 INSERT INTO teams (name, country, stadiums, cities, matches) VALUES
   ("USA", "United States", 10, 11, 60),
@@ -169,6 +176,12 @@ INSERT INTO news (title, content) VALUES
   ('Lanzamiento Mundo Fútbol 2026', 'Bienvenido a la plataforma independiente del Mundial 2026.'),
   ('Actualización de calendarios', 'Se han cargado los primeros partidos de la fase de grupos.')
 ON DUPLICATE KEY UPDATE content = VALUES(content);
+
+INSERT INTO catalog (name, description, price) VALUES
+  ('Balon oficial', 'Balon con diseno inspirado en la Copa Mundial 2026.', 89.99),
+  ('Camiseta oficial', 'Camiseta edicion 2026 para coleccionistas y aficionados.', 59.99),
+  ('Pase premium', 'Acceso a funciones especiales de seguimiento y prediccion.', 19.99)
+ON DUPLICATE KEY UPDATE description = VALUES(description), price = VALUES(price);
 
 -- Partidos de ejemplo y equipos referenciados
 INSERT INTO matches (`date`, stage, home_team_id, away_team_id, venue, status) VALUES

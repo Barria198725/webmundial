@@ -27,11 +27,7 @@ export class MySQLWorldRepository implements WorldRepository {
 
   async getGroups(): Promise<GroupStanding[]> {
     const [rows] = await pool.query(
-      `SELECT s.group_name as group,
-              t.name as team,
-              s.played,
-              s.points,
-              s.goal_diff as goalDiff
+
        FROM standings s
        JOIN teams t ON s.team_id = t.id
        ORDER BY s.group_name, s.points DESC`
@@ -40,10 +36,10 @@ export class MySQLWorldRepository implements WorldRepository {
 
     const groups: Record<string, GroupStanding> = {};
     (rows as any[]).forEach((row) => {
-      if (!groups[row.group]) {
-        groups[row.group] = { group: row.group, teams: [] };
+      if (!groups[row.groupName]) {
+        groups[row.groupName] = { group: row.groupName, teams: [] };
       }
-      groups[row.group].teams.push({
+      groups[row.groupName].teams.push({
         name: row.team,
         played: row.played,
         points: row.points,

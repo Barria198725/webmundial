@@ -26,7 +26,7 @@ La solución expone un endpoint de catálogo en `http://127.0.0.1:3000/api/catal
 1. En la raíz del proyecto, ejecutar:
 
 ```bash
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 2. Verificar los contenedores:
@@ -50,7 +50,7 @@ http://127.0.0.1:8000
 5. Para detener y eliminar contenedores y volúmenes:
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ## Ejecución alternativa sin Docker
