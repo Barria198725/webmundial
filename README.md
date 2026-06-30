@@ -1,4 +1,10 @@
-# Proyecto IB — Manual de despliegue y uso
+# Mas Mundial — Manual de despliegue y uso
+
+**Equipo de desarrollo:**
+- Irving Barria
+- Alejandro Castillo
+- Rene Vega
+- Algelica Gaitan
 
 Este repositorio incluye:
 - `api/`: API REST con Node.js, Express y TypeScript.
@@ -96,5 +102,37 @@ python manage.py runserver 0.0.0.0:8000
   - `config/`
   - `core/`
 
-#
+## Cambios recientes en interfaz
+
+Se mejoró la apariencia del dashboard principal en `web/core/templates/index.html` y `web/core/static/css/main.css` para:
+
+- mostrar el conteo regresivo y los paneles en un diseño más compacto y proporcional
+- reducir el alto de las tarjetas y distribuir mejor el ancho lateral
+- alinear los elementos hacia la izquierda en vez de estirarlos verticalmente
+- agregar iconos de bandera en las actualizaciones del ticker de partidos
+- hacer los bloques de resultados y próximo partido más uniformes
+
+## Cómo probar los cambios visuales
+
+1. Ejecutar el frontend:
+
+```bash
+cd web
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py runserver 0.0.0.0:8000
+```
+
+2. Abrir en el navegador:
+
+```text
+http://127.0.0.1:8000
+```
+
+3. Verificar el dashboard principal:
+
+- que el conteo regresivo, el último resultado, el próximo partido y el ticker estén en una fila compacta
+- que los paneles se alineen hacia la izquierda
+- que las noticias del ticker muestren banderas junto al texto
 

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import worldRoutes from "./presentation/routes/worldRoutes";
 import catalogoRoutes from "./presentation/routes/catalogoRoutes";
 import authRoutes from "./presentation/routes/authRoutes";
-import { poolPromise } from "./infra/database/mysqlConnection";
+
 
 dotenv.config();
 

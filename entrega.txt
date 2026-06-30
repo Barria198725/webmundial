@@ -1,13 +1,5 @@
-Proyecto: web mundial
 
-Estudiante: Irving Barria
-            Angelica Gaitan
-            Rene Vega
-            Alejandro Castillo
-Cédula: 8-803-197
-Nivel: III año
 Asignatura: Desarrollo avanzado de aplicaciones web
-Carrera: Licenciatura en Desarrollo de Aplicaciones Tecnológicas
 Profesor: Angel Avila
 Año: 2026
 
@@ -27,5 +19,8 @@ Notas:
 - Si hay problemas de codificación, se recomienda recrear el volumen de datos:
   docker-compose down -v && docker-compose up --build -d
 
-Firma:
-Irving Barria
+Firmado por el equipo:
+- Irving Barria
+- Alejandro Castillo
+- Rene Vega
+- Algelica Gaitan

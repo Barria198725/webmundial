@@ -13,7 +13,7 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function createPoolWithRetry(retries = 5, delay = 1000) {
+async function createPoolWithRetry(retries = 30, delay = 2000) {
   let attempt = 0;
   while (true) {
     try {
@@ -27,6 +27,7 @@ async function createPoolWithRetry(retries = 5, delay = 1000) {
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0,
+        connectTimeout: 10000,
       });
 
       // Try a quick connection

@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/hero.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/calendar.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/predictions.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/main.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/hero.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/calendar.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/predictions.css' %}?v=2" />
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -22,17 +22,17 @@
     <header class="navbar">
       <div class="navbar__brand">MUNDO FÚTBOL 2026</div>
       <nav class="navbar__links">
-        <a href="/">Inicio</a>
-        <a href="#calendar">Partidos</a>
-        <a href="#groups">Grupos</a>
-        <a href="#teams">Equipos</a>
-        <a href="#stadiums">Estadios</a>
-        <a href="#legends">Leyendas</a>
-        <a href="#news">Noticias</a>
-        <a href="#history">Historia</a>
+        <a href="{% url 'index' %}">Inicio</a>
+        <a href="{% url 'index' %}#calendar">Partidos</a>
+        <a href="{% url 'index' %}#groups">Grupos</a>
+        <a href="{% url 'index' %}#teams">Equipos</a>
+        <a href="{% url 'index' %}#stadiums">Estadios</a>
+        <a href="{% url 'index' %}#legends">Leyendas</a>
+        <a href="{% url 'index' %}#news">Noticias</a>
+        <a href="{% url 'history' %}">Historia</a>
       </nav>
       <div class="navbar__auth">
-        <a id="navbar-login-link" class="navbar__icon navbar__login" href="/login/" aria-label="Iniciar sesión">
+        <a id="navbar-login-link" class="navbar__icon navbar__login" href="{% url 'login' %}" aria-label="Iniciar sesión">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="#0b0f19" opacity="0.9"/>
             <path d="M21 21c0-3.866-3.582-7-9-7s-9 3.134-9 7" stroke="#0b0f19" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -55,7 +55,7 @@
             </div>
             <div class="user-menu__details">
               <div class="user-menu__detail"><span>Puntos</span><strong id="navbar-user-points">0</strong></div>
-              <div class="user-menu__detail"><span>Perfil</span><a href="/profile/">Ver perfil</a></div>
+              <div class="user-menu__detail"><span>Perfil</span><a href="{% url 'profile' %}">Ver perfil</a></div>
             </div>
             <button id="logout-button" class="button button--secondary button--block">Cerrar sesión</button>
           </div>
