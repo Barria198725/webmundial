@@ -53,6 +53,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "core" / "static",
     BASE_DIR / "core" / "templates" / "IMGRENE",
+    BASE_DIR.parent / "IMG",
 ]
 
 # Cache Configuration

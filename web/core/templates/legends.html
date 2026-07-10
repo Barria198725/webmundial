@@ -196,6 +196,18 @@
     border-color: rgba(0, 212, 255, 0.10);
   }
 
+  .legend-detail__icon {
+    font-size: 2.6rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.4));
+    animation: icon-bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes icon-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-4px) scale(1.08); }
+  }
+
   /* Stats badges blue */
   .legends-page .legend-stat {
     background: rgba(0, 212, 255, 0.08);
@@ -279,65 +291,65 @@
   <div class="legend-grid legend-grid--page">
     <article class="legend-card legend-card--player" data-player="pele" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/pele.png" alt="Pelé" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/pele.png' %}" alt="Pelé" />
       </div>
       <h3 class="legend-card__name">Pelé</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="maradona" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/maradona.png" alt="Maradona" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/maradona.png' %}" alt="Maradona" />
       </div>
       <h3 class="legend-card__name">Maradona</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="cruyff" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/cruyff.png" alt="Cruyff" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/cruyff.png' %}" alt="Cruyff" />
       </div>
       <h3 class="legend-card__name">Cruyff</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="ronaldo" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/ronaldo.png" alt="Ronaldo" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/ronaldo.png' %}" alt="Ronaldo" />
       </div>
       <h3 class="legend-card__name">Ronaldo</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="messi" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/messi.png" alt="Messi" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/messi.png' %}" alt="Messi" />
       </div>
       <h3 class="legend-card__name">Messi</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="zidane" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/zidane.png" alt="Zidane" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/zidane.png' %}" alt="Zidane" />
       </div>
       <h3 class="legend-card__name">Zidane</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="cristiano-ronaldo" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/cristiano ronaldo.png" alt="Cristiano Ronaldo" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/cristiano-ronaldo.png' %}" alt="Cristiano Ronaldo" />
       </div>
       <h3 class="legend-card__name">Cristiano Ronaldo</h3>
     </article>
 
     <article class="legend-card legend-card--player" data-player="ronaldinho" tabindex="0">
       <div class="legend-card__media">
-        <img class="legend-card__img" src="/static/IMG/futbolistas/ronaldinho.png" alt="Ronaldinho" />
+        <img class="legend-card__img" src="{% static 'images/futbolistas/ronaldinho.png' %}" alt="ronaldinho" />
       </div>
       <h3 class="legend-card__name">Ronaldinho</h3>
     </article>
   </div>
-
   <div class="legend-detail" id="legend-detail" aria-live="polite">
     <div class="legend-detail__header">
-      <div class="legend-detail__media">
-        <img id="legend-detail-img" src="/static/IMG/futbolistas/copa.jpg" alt="Copa del Mundo" />
+      <div class="legend-detail__media" id="legend-detail-media">
+        <span id="legend-detail-icon" class="legend-detail__icon">⚽</span>
+        <img id="legend-detail-img" class="legend-detail__img" src="" alt="Jugador" style="display:none;" />
       </div>
       <div>
         <h3 id="legend-detail-title" class="legend-detail__title">🏆 Selecciona una leyenda</h3>

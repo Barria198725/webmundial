@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pele: {
       title: "Pelé",
       subtitle: "El Rey del Fútbol • 3 Copas del Mundo",
-      img: "/static/IMG/futbolistas/pele.png",
+      img: "/static/images/futbolistas/pele.png",
       stats: { mundiales: 4, goles: 12, titulos: 3, debut: 1957, retiro: 1977 },
       clubs: ["Santos (1956–1974)", "New York Cosmos (1975–1977)"],
       body: [
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     maradona: {
       title: "Diego Maradona",
       subtitle: "Mago del Balón • Campeón 1986",
-      img: "/static/IMG/futbolistas/maradona.png",
+      img: "/static/images/futbolistas/maradona.png",
       stats: { mundiales: 4, goles: 8, titulos: 1, debut: 1976, retiro: 1997 },
       clubs: ["Argentinos Juniors (1976–1981)", "Boca Juniors (1981–1982)", "FC Barcelona (1982–1984)", "Napoli (1984–1991)", "Sevilla (1992–1993)", "Newell's Old Boys (1993)", "Boca Juniors (1995–1997)"],
       body: [
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cruyff: {
       title: "Johan Cruyff",
       subtitle: "Arquitecto del Fútbol Total • 3 Balones de Oro",
-      img: "/static/IMG/futbolistas/cruyff.png",
+      img: "/static/images/futbolistas/cruyff.png",
       stats: { mundiales: 2, goles: 3, titulos: 1, debut: 1964, retiro: 1984 },
       clubs: ["Ajax (1964–1973)", "FC Barcelona (1973–1978)", "Los Angeles Aztecs (1979–1980)", "Washington Diplomats (1980–1981)", "Levante (1981)", "Ajax (1981–1983)", "Feyenoord (1983–1984)"],
       body: [
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ronaldo: {
       title: "Ronaldo Nazário",
       subtitle: "El Fenómeno • 2 Copas del Mundo",
-      img: "/static/IMG/futbolistas/ronaldo.png",
+      img: "/static/images/futbolistas/ronaldo.png",
       stats: { mundiales: 4, goles: 15, titulos: 2, debut: 1993, retiro: 2011 },
       clubs: ["Cruzeiro (1993–1994)", "PSV Eindhoven (1994–1996)", "FC Barcelona (1996–1997)", "Inter de Milán (1997–2002)", "Real Madrid (2002–2007)", "AC Milan (2007–2008)", "Corinthians (2009–2011)"],
       body: [
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     messi: {
       title: "Lionel Messi",
       subtitle: "El GOAT • 1 Copa del Mundo • 8 Balones de Oro",
-      img: "/static/IMG/futbolistas/messi.png",
+      img: "/static/images/futbolistas/messi.png",
       stats: { mundiales: 5, goles: 13, titulos: 1, debut: 2004, retiro: "Activo" },
       clubs: ["FC Barcelona (2004–2021)", "Paris Saint-Germain (2021–2023)", "Inter Miami (2023–presente)"],
       body: [
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     zidane: {
       title: "Zinedine Zidane",
       subtitle: "Maestro del Balón • Campeón 1998 • Leyenda UEFA",
-      img: "/static/IMG/futbolistas/zidane.png",
+      img: "/static/images/futbolistas/zidane.png",
       stats: { mundiales: 3, goles: 5, titulos: 1, debut: 1989, retiro: 2006 },
       clubs: ["Cannes (1989–1992)", "Bordeaux (1992–1996)", "Juventus (1996–2001)", "Real Madrid (2001–2006)"],
       body: [
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "cristiano-ronaldo": {
       title: "Cristiano Ronaldo",
       subtitle: "Máquina de Récords • 5 Balones de Oro • Leyenda UEFA",
-      img: "/static/IMG/futbolistas/cristiano ronaldo.png",
+      img: "/static/images/futbolistas/cristiano-ronaldo.png",
       stats: { mundiales: 5, goles: 8, titulos: 0, debut: 2002, retiro: "Activo" },
       clubs: ["Sporting CP (2002–2003)", "Manchester United (2003–2009)", "Real Madrid (2009–2018)", "Juventus (2018–2021)", "Manchester United (2021–2022)", "Al-Nassr (2023–presente)"],
       body: [
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ronaldinho: {
       title: "Ronaldinho Gaúcho",
       subtitle: "El Último Mago • Sonrisa del Fútbol • Campeón 2002",
-      img: "/static/IMG/futbolistas/ronaldinho.png",
+      img: "/static/images/futbolistas/ronaldinho.png",
       stats: { mundiales: 2, goles: 2, titulos: 1, debut: 1998, retiro: 2015 },
       clubs: ["Grêmio (1998–2001)", "Paris Saint-Germain (2001–2003)", "FC Barcelona (2003–2008)", "AC Milan (2008–2011)", "Flamengo (2011–2012)", "Atlético Mineiro (2012–2014)", "Querétaro (2014–2015)"],
       body: [
@@ -119,10 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const detail = document.getElementById("legend-detail");
   const titleEl = document.getElementById("legend-detail-title");
   const subtitleEl = document.getElementById("legend-detail-subtitle");
+  const iconEl = document.getElementById("legend-detail-icon");
   const imgEl = document.getElementById("legend-detail-img");
   const bodyEl = document.getElementById("legend-detail-body");
 
-  if (cards.length && detail && titleEl && subtitleEl && imgEl && bodyEl) {
+  if (cards.length && detail && titleEl && subtitleEl && iconEl && imgEl && bodyEl) {
     function setActiveCard(playerKey) {
       cards.forEach((c) => {
         c.classList.toggle("is-selected", c.dataset.player === playerKey);
@@ -136,8 +137,12 @@ document.addEventListener("DOMContentLoaded", () => {
       setActiveCard(playerKey);
       titleEl.textContent = data.title;
       subtitleEl.textContent = data.subtitle;
+      
+      // Ocultar icono y mostrar imagen del jugador
+      iconEl.style.display = "none";
       imgEl.src = data.img;
       imgEl.alt = data.title;
+      imgEl.style.display = "block";
 
       const statsHtml = `
         <div class="legend-stats">

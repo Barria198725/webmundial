@@ -1302,8 +1302,9 @@ button, input {
 
 .legend-clubs__list {
   font-size: 0.82rem;
-  color: var(--gray);
+  color: #ffffff;
   line-height: 1.7;
+  opacity: 0.85;
 }
 
 .legend-club-arrow {
