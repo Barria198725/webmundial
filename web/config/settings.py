@@ -57,3 +57,4 @@ from dotenv import load_dotenv
 load_dotenv(BASE_DIR / ".env")
 
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:3000")
+NEWSAPI_TOKEN = os.environ.get("NEWSAPI_TOKEN", "")
