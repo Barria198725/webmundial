@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  :root {
+    --bg: #000000;
+    --verde: #2ecc71;
+    --verde-suave: #7bd99c;
+    --azul: #d4a017;
+    --azul-claro: #f1c40f;
+    --panel-bg: #0d0d0d;
+    --borde: #1d1d1d;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--verde);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  header {
+    width: 100%;
+    padding: 40px 20px 20px;
+  }
+
+  header h1 {
+    color: var(--azul-claro);
+    font-size: 2.4rem;
+    text-shadow: 0 0 12px rgba(241, 196, 15, 0.5);
+    margin: 0;
+  }
+
+  header p {
+    color: var(--verde-suave);
+    max-width: 700px;
+    margin: 15px auto 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  main {
+    width: 100%;
+    max-width: 850px;
+    padding: 20px;
+  }
+
+  .era {
+    margin-bottom: 18px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--panel-bg);
+  }
+
+  .era__toggle {
+    width: 100%;
+    background-color: #111111;
+    color: var(--azul-claro);
+    border: none;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .era__toggle:hover {
+    background-color: var(--azul);
+    color: #000;
+  }
+
+  .era__toggle::after {
+    content: " ▾";
+  }
+
+  .era__toggle.active::after {
+    content: " ▴";
+  }
+
+  .era__panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    background-color: var(--panel-bg);
+  }
+
+  .era__panel.open {
+    max-height: 600px;
+  }
+
+  .era__content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .era__content img {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 8px;
+    border: 2px solid var(--azul);
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.35);
+  }
+
+  .era__content p {
+    color: var(--verde-suave);
+    line-height: 1.7;
+    font-size: 0.98rem;
+    max-width: 600px;
+  }
+
+  .destacado {
+    color: var(--azul-claro);
+    font-weight: bold;
+  }
+
+  footer {
+    color: #2ecc7180;
+    font-size: 0.85rem;
+    padding: 30px 0;
+  }
+
+  @media (max-width: 480px) {
+    header h1 { font-size: 1.8rem; }
+    .era__toggle { font-size: 1rem; padding: 14px; }
+  }
+</style>
+
+<header>
+  <h1>Historia del Mundial (hasta 2026)</h1>
+  <p>Desde la primera edición en <span class="destacado">Uruguay 1930</span> hasta la actualidad, la Copa del Mundo ha sido el escenario donde nacen leyendas, récords y momentos inolvidables del fútbol.</p>
+</header>
+
+<main>
+
+  <div class="era">
+    <button class="era__toggle">Los Inicios (1930 - 1950)</button>
+    <div class="era__panel">
+      <div class="era__content">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ExO2BdOLZWOefDtq9BYx4REYBi3WfXcl8i3acmxgevmxxHUSopFPXjY&s=10" alt="Trofeo Jules Rimet">
+        <p>El primer Mundial se jugó en <span class="destacado">Uruguay en 1930</span>, con la selección anfitriona como campeona. El trofeo original, llamado <span class="destacado">Jules Rimet</span>, se entregó hasta 1970. La Segunda Guerra Mundial obligó a cancelar las ediciones de 1942 y 1946.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <button class="era__toggle">La Era de Brasil (1958 - 1970)</button>
+    <div class="era__panel">
+      <div class="era__content">
+        <img src="https://img2.rtve.es/n/450590?w=1600" alt="Pelé en los años 60">
+        <p><span class="destacado">Brasil</span> dominó esta etapa ganando tres títulos (1958, 1962 y 1970), liderada por <span class="destacado">Pelé</span>, considerado uno de los mejores jugadores de la historia. Tras ganar su tercer título, Brasil se quedó para siempre con el trofeo Jules Rimet.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <button class="era__toggle">Nuevo Trofeo y Nuevas Estrellas (1974 - 1990)</button>
+    <div class="era__panel">
+      <div class="era__content">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz1__5eGqYA0eQIslNYDUoM_f0tJ6JooF9F6tx-UutDk1fqHdpPwZW2Ecu&s=10">
+        <p>Desde 1974 se entrega el trofeo actual de la <span class="destacado">FIFA</span>. Esta etapa estuvo marcada por figuras como <span class="destacado">Johan Cruyff</span>, y por el inolvidable Mundial de México 1986, donde <span class="destacado">Diego Maradona</span> llevó a Argentina al título.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <button class="era__toggle">Globalización del Fútbol (1994 - 2010)</button>
+    <div class="era__panel">
+      <div class="era__content">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGegrl1wn4-JYPwlmuh6j8f_-rN9pLpjwonRidJLXONeeFgCQXfjJgjAs&s=10">
+        <p>El Mundial llegó a Estados Unidos (1994) y a Asia (Corea-Japón 2002) por primera vez. Brasil sumó su <span class="destacado">quinto título en 2002</span>. Figuras como <span class="destacado">Zinedine Zidane</span> y <span class="destacado">Ronaldo Nazário</span> marcaron esta época, que terminó con España ganando su primer Mundial en 2010.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <button class="era__toggle">La Era Moderna (2014 - 2022)</button>
+    <div class="era__panel">
+      <div class="era__content">
+        <img src="https://e00-us-marca.uecdn.es/assets/multimedia/imagenes/2022/09/22/16638728327225.jpg">
+        <p>En 2014, Alemania goleó <span class="destacado">7-1 a Brasil</span> en una de las semifinales más recordadas. En Catar 2022, <span class="destacado">Lionel Messi</span> finalmente conquistó el título con Argentina en una final histórica contra Francia.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <button class="era__toggle">Rumbo a 2026</button>
+    <div class="era__panel">
+      <div class="era__content">
+        <img src="https://sertv.gob.pa/wp-content/uploads/2025/11/copa-2026.jpg" alt="Logo del Mundial 2026">
+        <p>El Mundial de <span class="destacado">2026</span> será el primero organizado por tres países: <span class="destacado">Estados Unidos, México y Canadá</span>, y el primero en disputarse con <span class="destacado">48 selecciones</span>, ampliando la fiesta del fútbol como nunca antes.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  &copy; Historia de los Mundiales — Datos curiosos del fútbol mundial
+</footer>
+
+<script>
+  document.querySelectorAll('.era__toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const panel = btn.nextElementSibling;
+      const isOpen = panel.classList.contains('open');
+
+      document.querySelectorAll('.era__panel').forEach(function (p) {
+        p.classList.remove('open');
+      });
+      document.querySelectorAll('.era__toggle').forEach(function (b) {
+        b.classList.remove('active');
+      });
+
+      if (!isOpen) {
+        panel.classList.add('open');
+        btn.classList.add('active');
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% load static %}
 
 {% block content %}
-
 
   <main>
     <section id="hero" class="hero">
@@ -170,11 +170,48 @@
     </section>
 
     <section id="groups" class="calendar-panel">
-
       <div class="calendar-panel__left">
         <div class="section-header"><span>Partidos</span><h2>Calendario interactivo</h2></div>
-        <div class="calendar-card" id="match-list">
-          <div class="spinner">Cargando partidos...</div>
+        <div class="calendar-card calendar-card--interactive">
+          <div class="calendar-shell" id="calendar-shell">
+            <div class="calendar-shell__toolbar">
+              <button type="button" class="calendar-nav-button" id="calendar-prev" aria-label="Mes anterior">←</button>
+              <div class="calendar-shell__title">
+                <span id="calendar-month-label">Junio 2026</span>
+                <small id="calendar-month-meta">Selecciona un día para ver sus partidos</small>
+              </div>
+              <button type="button" class="calendar-nav-button" id="calendar-next" aria-label="Mes siguiente">→</button>
+            </div>
+
+            <div class="calendar-shell__body">
+              <div class="calendar-grid-wrap">
+                <div class="calendar-grid" id="calendar-grid" aria-label="Calendario mensual"></div>
+              </div>
+
+              <aside class="calendar-day-panel">
+                <div class="calendar-day-panel__header">
+                  <span>Día seleccionado</span>
+                  <h3 id="calendar-selected-date">Cargando...</h3>
+                </div>
+                <div id="calendar-day-summary" class="calendar-day-panel__summary">
+                  <div class="data-placeholder">Cargando calendario...</div>
+                </div>
+              </aside>
+            </div>
+          </div>
+
+          <div class="calendar-agenda">
+            <div class="calendar-agenda__header">
+              <div>
+                <span>Agenda del día</span>
+                <h3 id="calendar-agenda-title">Partidos del día</h3>
+              </div>
+              <div class="calendar-agenda__count" id="calendar-agenda-count">0 partidos</div>
+            </div>
+            <div id="calendar-match-list">
+              <div class="spinner">Cargando partidos...</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="calendar-panel__right">
@@ -188,7 +225,6 @@
         </div>
       </div>
     </section>
-
 
     <section id="predictions" class="predictions">
       <div class="predictions__panel">
@@ -239,35 +275,30 @@
           </div>
           <h3 class="legend-card__name">Pelé</h3>
         </article>
-
         <article class="legend-card legend-card--player">
           <div class="legend-card__media">
             <img class="legend-card__img" src="{% static 'images/maradona.png' %}" alt="Maradona" />
           </div>
           <h3 class="legend-card__name">Maradona</h3>
         </article>
-
         <article class="legend-card legend-card--player">
           <div class="legend-card__media">
             <img class="legend-card__img" src="{% static 'images/cruyff.png' %}" alt="Cruyff" />
           </div>
           <h3 class="legend-card__name">Cruyff</h3>
         </article>
-
         <article class="legend-card legend-card--player">
           <div class="legend-card__media">
             <img class="legend-card__img" src="{% static 'images/ronaldo.png' %}" alt="Ronaldo" />
           </div>
           <h3 class="legend-card__name">Ronaldo</h3>
         </article>
-
         <article class="legend-card legend-card--player">
           <div class="legend-card__media">
             <img class="legend-card__img" src="{% static 'images/messi.png' %}" alt="Messi" />
           </div>
           <h3 class="legend-card__name">Messi</h3>
         </article>
-
         <article class="legend-card legend-card--player">
           <div class="legend-card__media">
             <img class="legend-card__img" src="{% static 'images/zidane.png' %}" alt="Zidane" />
@@ -277,18 +308,20 @@
       </div>
     </section>
 
-
-    <section class="accordion" id="trivia">
+    <section class="accordion" id="history">
       <div class="section-header"><span>Datos Curiosos</span><h2>Historia del Mundial (hasta 2026)</h2></div>
+      <p>La Copa del Mundo nació en 1930 y se convirtió en el torneo más importante del fútbol, con historias memorables, récords y selecciones que marcaron generaciones.</p>
+      <button class="accordion__toggle">Primer Mundial</button>
+      <div class="accordion__panel"><p>La primera edición se disputó en Uruguay en 1930 y fue ganada por la selección local.</p></div>
       <button class="accordion__toggle">Mayor goleada</button>
-      <div class="accordion__panel"><p>La mayor goleada en una fase final de la Copa del Mundo fue Alemania 7-1 Brasil (Semifinal, 2014).</p></div>
+      <div class="accordion__panel"><p>La mayor goleada en una fase final fue Alemania 7-1 Brasil en la semifinal de 2014.</p></div>
       <button class="accordion__toggle">Más títulos</button>
       <div class="accordion__panel"><p>Brasil es el máximo ganador, con 5 títulos mundiales (1958, 1962, 1970, 1994 y 2002).</p></div>
       <button class="accordion__toggle">Jugador con más goles</button>
       <div class="accordion__panel"><p>Lionel Messi (Argentina) es el máximo goleador histórico de Mundiales con 16 tantos.</p></div>
 
       <button class="accordion__toggle">Mundial con más asistentes</button>
-      <div class="accordion__panel"><p>El Mundial de Brasil 2014 es uno de los más concurridos, con más de 3 millones de espectadores en total.</p></div>
+      <div class="accordion__panel"><p>El Mundial de Brasil 2014 fue uno de los más concurridos, con más de 3 millones de espectadores en total.</p></div>
     </section>
 
   </main>
