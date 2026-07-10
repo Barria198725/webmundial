@@ -1,4 +1,4 @@
-const CALENDAR_API_BASE_URL = window.API_BASE_URL || "http://localhost:3000";
+const CALENDAR_API_BASE_URL = "http://localhost:3000";
 
 const calendarState = {
 	matches: [],
