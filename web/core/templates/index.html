@@ -54,7 +54,9 @@
         </div>
         <div class="match-card__teams">
           <div class="team team--home">
-            <div class="team__shield team__shield--home"><span class="team__logo">🇧🇷</span></div>
+            <div class="team__shield team__shield--home">
+              <img id="lastHomeCrest" class="escudo-equipo" src="{% static 'img/escudos selecciones/brazil-national-team-logo-footylogos.png' %}" alt="Brazil escudo" />
+            </div>
             <span class="team__name" id="lastHomeTeam">BRAZIL</span>
           </div>
           <div class="match-score">
@@ -63,7 +65,9 @@
             <span class="match-score__value" id="lastAwayScore">1</span>
           </div>
           <div class="team team--away">
-            <div class="team__shield team__shield--away"><span class="team__logo">🇯🇵</span></div>
+            <div class="team__shield team__shield--away">
+              <img id="lastAwayCrest" class="escudo-equipo" src="{% static 'img/escudos selecciones/japan-national-team-logo-footylogos.png' %}" alt="Japan escudo" />
+            </div>
             <span class="team__name" id="lastAwayTeam">JAPAN</span>
           </div>
         </div>
@@ -81,12 +85,16 @@
         </div>
         <div class="match-card__teams">
           <div class="team team--home">
-            <div class="team__shield team__shield--home"><span class="team__logo">🇩🇪</span></div>
+            <div class="team__shield team__shield--home">
+              <img id="nextHomeCrest" class="escudo-equipo" src="{% static 'img/escudos selecciones/germany-national-team-logo-footylogos.png' %}" alt="Germany escudo" />
+            </div>
             <span class="team__name" id="nextHomeTeam">GERMANY</span>
           </div>
           <div class="match-vs">VS</div>
           <div class="team team--away">
-            <div class="team__shield team__shield--away"><span class="team__logo">🇵🇾</span></div>
+            <div class="team__shield team__shield--away">
+              <img id="nextAwayCrest" class="escudo-equipo" src="{% static 'img/escudos selecciones/paraguay-national-team-logo-footylogos.png' %}" alt="Paraguay escudo" />
+            </div>
             <span class="team__name" id="nextAwayTeam">PARAGUAY</span>
           </div>
         </div>
@@ -118,33 +126,37 @@
         <h2>Sedes del mundial</h2>
       </div>
       <div class="host-grid">
-        <article class="host-card">
+        <a class="host-card" href="{% url 'country_detail' 'USA' %}" data-country="USA" tabindex="0">
           <div class="host-card__flag">
-            <img src="{% static 'images/sedes/estados-unidos.png' %}" alt="Estados Unidos" />
+            <img src="{% static 'images/sedes/Estados Unidos.png' %}" alt="Estados Unidos" />
           </div>
           <div class="host-card__meta">
             <h3>Estados Unidos</h3>
             <p>Una de las sedes principales del torneo.</p>
           </div>
-        </article>
-        <article class="host-card">
+        </a>
+        <a class="host-card" href="{% url 'country_detail' 'MEX' %}" data-country="MEX" tabindex="0">
           <div class="host-card__flag">
-            <img src="{% static 'images/sedes/mexico.png' %}" alt="México" />
+            <img src="{% static 'images/sedes/Mexico.png' %}" alt="México" />
           </div>
           <div class="host-card__meta">
             <h3>México</h3>
             <p>Host de gran tradición futbolística en la competición.</p>
           </div>
-        </article>
-        <article class="host-card">
+        </a>
+        <a class="host-card" href="{% url 'country_detail' 'CAN' %}" data-country="CAN" tabindex="0">
           <div class="host-card__flag">
-            <img src="{% static 'images/sedes/canada.png' %}" alt="Canadá" />
+            <img src="{% static 'images/sedes/Canada.png' %}" alt="Canadá" />
           </div>
           <div class="host-card__meta">
             <h3>Canadá</h3>
             <p>Completa la tríada de sedes del Mundial 2026.</p>
           </div>
-        </article>
+        </a>
+      </div>
+      <div class="seccion-detalle-mundial" id="detalle-sedes">
+        <h2 id="nombre-pais-seleccionado">Selecciona una sede para ver más</h2>
+        <div id="contenedor-info" class="contenedor-sedes-dinamicas"></div>
       </div>
       <div class="host-debut">
         <span>Debutantes 2026</span>

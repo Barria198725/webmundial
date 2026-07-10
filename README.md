@@ -8,13 +8,17 @@
 
 Este repositorio incluye:
 - `api/`: API REST con Node.js, Express y TypeScript.
-- `web/`: frontend con Django que consume la API.
+- `web/`: frontend con Django que consume la API y muestra las páginas del Mundial.
 - MySQL: base de datos con script de inicialización en `api/db/init.sql`.
 - `docker-compose.yml`: orquesta `db`, `api` y `web`.
 
 ## Resumen
 
-La solución expone un endpoint de catálogo en `http://127.0.0.1:3000/api/catalogo` y un frontend Django accesible en `http://127.0.0.1:8000`.
+La solución expone:
+- API catálogo en `http://127.0.0.1:3000/api/catalogo`
+- Frontend Django en `http://127.0.0.1:8000`
+- Página de partidos en `http://127.0.0.1:8000/partidos/`
+- Páginas de sedes en `http://127.0.0.1:8000/sedes/USA`, `.../MEX`, `.../CAN`
 
 ## Requisitos
 
@@ -78,7 +82,8 @@ python manage.py runserver 0.0.0.0:8000
 
 - `GET http://127.0.0.1:3000/health` debe responder con estado 200.
 - `GET http://127.0.0.1:3000/api/catalogo` debe devolver JSON con el catálogo.
-- El frontend debe mostrar la lista de productos desde la API.
+- El frontend debe mostrar la página principal y permitir navegar a `/partidos/`.
+- Las sedes deben mostrarse en la sección de hosts con imágenes actualizadas.
 
 ## Arquitectura del proyecto
 
@@ -102,17 +107,35 @@ python manage.py runserver 0.0.0.0:8000
   - `config/`
   - `core/`
 
-## Cambios recientes en interfaz
+## Actualizaciones recientes
 
-Se mejoró la apariencia del dashboard principal en `web/core/templates/index.html` y `web/core/static/css/main.css` para:
+### Nuevas funcionalidades
 
-- mostrar el conteo regresivo y los paneles en un diseño más compacto y proporcional
-- reducir el alto de las tarjetas y distribuir mejor el ancho lateral
-- alinear los elementos hacia la izquierda en vez de estirarlos verticalmente
-- agregar iconos de bandera en las actualizaciones del ticker de partidos
-- hacer los bloques de resultados y próximo partido más uniformes
+- Agregada la página de `partidos` en `web/core/templates/partidos.html`.
+- Implementado un cargador limpio que usa solo `web/core/static/data/partidos.json`.
+- Se eliminó el contenido de prueba y los datos predeterminados incorrectos del frontend.
+- Actualizadas las imágenes de sedes en `web/core/templates/index.html` para usar los archivos correctos.
+- Agregado el recorrido de sedes en `web/core/urls.py` con `country_detail` para `USA`, `MEX` y `CAN`.
 
-## Cómo probar los cambios visuales
+### Importación de fixtures
+
+- Creado/actualizado `web/core/scripts/import_fixtures.py` para convertir el Excel de fixtures en JSON.
+- El script parsea las hojas de grupos `A` a `L` y genera `web/core/static/data/partidos.json` y `web/static/data/partidos.json`.
+- Ahora los resultados de la fase de grupos se cargan con los equipos correctos y los goles correctos.
+
+### Contenido y datos
+
+- `web/core/static/data/partidos.json` contiene los partidos reales que se muestran en la página de `partidos`.
+- Las imágenes de sede ahora usan los archivos reales en `web/core/static/images/sedes/`.
+- Las páginas de detalle de sede usan portadas y vistas previas de estadio desde `web/core/data/country_data.py`.
+
+### Correcciones visuales
+
+- Página principal ajustada para ofrecer un diseño más limpio y ordenado.
+- Se mejoró la navegación de sedes y se corrigieron los iconos/rutas de imagen.
+- Se estructuró el HTML para facilitar la lectura y el mantenimiento.
+
+## Cómo probar los cambios adicionales
 
 1. Ejecutar el frontend:
 
@@ -130,9 +153,16 @@ python manage.py runserver 0.0.0.0:8000
 http://127.0.0.1:8000
 ```
 
-3. Verificar el dashboard principal:
+3. Probar rutas clave:
 
-- que el conteo regresivo, el último resultado, el próximo partido y el ticker estén en una fila compacta
-- que los paneles se alineen hacia la izquierda
-- que las noticias del ticker muestren banderas junto al texto
+- `http://127.0.0.1:8000/partidos/`
+- `http://127.0.0.1:8000/sedes/USA`
+- `http://127.0.0.1:8000/sedes/MEX`
+- `http://127.0.0.1:8000/sedes/CAN`
+
+4. Si quieres regenerar partidos desde Excel:
+
+```bash
+python web/core/scripts/import_fixtures.py doc/Fixture-Copa-Mundial-FIFA-2026_ClasesExcel.xlsx
+```
 

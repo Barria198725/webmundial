@@ -16,6 +16,110 @@ function updateText(id, value) {
   if (element) element.textContent = value;
 }
 
+function normalizeTeamName(teamName) {
+  return String(teamName || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function getTeamCrestFilename(teamName) {
+  const normalized = normalizeTeamName(teamName);
+  const specialMap = {
+    brasil: "brazil-national-team-logo-footylogos.png",
+    brazil: "brazil-national-team-logo-footylogos.png",
+    japon: "japan-national-team-logo-footylogos.png",
+    japan: "japan-national-team-logo-footylogos.png",
+    alemania: "germany-national-team-logo-footylogos.png",
+    germany: "germany-national-team-logo-footylogos.png",
+    paraguay: "paraguay-national-team-logo-footylogos.png",
+    estadosunidos: "usa-national-team-logo-footylogos.png",
+    estados unidos: "usa-national-team-logo-footylogos.png",
+    usa: "usa-national-team-logo-footylogos.png",
+    unitedstates: "usa-national-team-logo-footylogos.png",
+    mexico: "mexico-national-team-logo-footylogos.png",
+    méxico: "mexico-national-team-logo-footylogos.png",
+    argentina: "argentina-national-team-logo-footylogos.png",
+    francia: "france-national-team-logo-footylogos.png",
+    france: "france-national-team-logo-footylogos.png",
+    canada: "canada-national-team-logo-footylogos.png",
+    canadá: "canada-national-team-logo-footylogos.png",
+    colombia: "colombia-national-team-logo-footylogos.png",
+    croacia: "croatia-national-team-logo-footylogos.png",
+    egipto: "egypt-national-team-logo-footylogos.png",
+    egypt: "egypt-national-team-logo-footylogos.png",
+    inglaterra: "england-national-team-logo-footylogos.png",
+    england: "england-national-team-logo-footylogos.png",
+    holanda: "netherlands-national-team-dutch-logo-footylogos.png",
+    netherlands: "netherlands-national-team-dutch-logo-footylogos.png",
+    nuevazelanda: "new-zealand-national-team-logo-footylogos.png",
+    newzealand: "new-zealand-national-team-logo-footylogos.png",
+    noruega: "norway-national-team-logo-footylogos.png",
+    norway: "norway-national-team-logo-footylogos.png",
+    panama: "panama-national-team-logo-footylogos.png",
+    panamá: "panama-national-team-logo-footylogos.png",
+    portugal: "portugal-national-team-logo-footylogos.png",
+    qatar: "qatar-national-team-logo-footylogos.png",
+    arabiasaudita: "saudi-arabia-national-team-logo-footylogos.png",
+    saudiarabia: "saudi-arabia-national-team-logo-footylogos.png",
+    escocia: "scotland-national-team-logo-footylogos.png",
+    scotland: "scotland-national-team-logo-footylogos.png",
+    senegal: "senegal-national-team-logo-footylogos.png",
+    sudafrica: "south-africa-national-team-logo-footylogos.png",
+    southafrica: "south-africa-national-team-logo-footylogos.png",
+    coreadelsur: "south-korea-national-team-logo-footylogos.png",
+    southkorea: "south-korea-national-team-logo-footylogos.png",
+    espana: "spain-national-team-logo-footylogos.png",
+    spain: "spain-national-team-logo-footylogos.png",
+    suecia: "sweden-national-team-logo-footylogos.png",
+    sweden: "sweden-national-team-logo-footylogos.png",
+    suiza: "switzerland-national-team-logo-footylogos.png",
+    switzerland: "switzerland-national-team-logo-footylogos.png",
+    tunisia: "tunisia-national-team-logo-footylogos.png",
+    turquia: "turkey-national-team-logo-footylogos.png",
+    turkey: "turkey-national-team-logo-footylogos.png",
+    uruguay: "uruguay-national-team-logo-footylogos.png",
+    uzbekistan: "uzbekistan-national-team-logo-footylogos.png",
+    uzbekistán: "uzbekistan-national-team-logo-footylogos.png",
+    australia: "australia-national-team-logo-footylogos.png",
+    austria: "austria-national-team-logo-footylogos.png",
+    belgium: "belgium-national-team-logo-footylogos.png",
+    belgica: "belgium-national-team-logo-footylogos.png",
+    bosniaherzegovina: "bosnia-and-herzegovina-national-team-logo-footylogos.png",
+    bosniayherzegovina: "bosnia-and-herzegovina-national-team-logo-footylogos.png",
+    caboverde: "cabo-verde-national-team-logo-footylogos.png",
+    cotedivoire: "cote-d-ivoire-national-team-logo-footylogos.png",
+    czechia: "czechia-national-team-logo-footylogos.png",
+    drcongo: "dr-congo-national-team-logo-footylogos.png",
+    ecuador: "ecuador-national-team-logo-footylogos.png",
+    ghana: "ghana-national-team-logo-footylogos.png",
+    haiti: "haiti-national-team-logo-footylogos.png",
+    iran: "iran-national-team-logo-footylogos.png",
+    iraq: "iraq-national-team-logo-footylogos.png",
+    saudiarabia: "saudi-arabia-national-team-logo-footylogos.png"
+  };
+
+  if (specialMap[normalized]) return specialMap[normalized];
+
+  if (normalized === "netherlands" || normalized === "holanda") {
+    return "netherlands-national-team-dutch-logo-footylogos.png";
+  }
+
+  const slug = normalized.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return slug ? `${slug}-national-team-logo-footylogos.png` : null;
+}
+
+function setTeamCrest(imgElement, teamName, fallbackName) {
+  if (!imgElement) return;
+  const resolvedName = teamName || fallbackName || "Brazil";
+  const filename = getTeamCrestFilename(resolvedName);
+  const fallbackPath = "/static/img/escudos selecciones/brazil-national-team-logo-footylogos.png";
+  const path = filename ? `/static/img/escudos selecciones/${filename}` : fallbackPath;
+  imgElement.src = path;
+  imgElement.alt = `${resolvedName} escudo`;
+}
+
 function formatSpanishDate(dateString) {
   const date = new Date(dateString);
   const options = { day: "2-digit", month: "short", year: "numeric" };
@@ -84,6 +188,8 @@ async function renderDashboard() {
     updateText("lastMatchDate", lastMatch.date ? formatSpanishDate(lastMatch.date) : "Fecha");
     updateText("lastMatchTime", lastMatch.date ? `${formatSpanishTime(lastMatch.date)} UTC` : "Hora");
     updateText("lastMatchMVP", lastMatch.mvp ? `MVP: ${lastMatch.mvp}` : "MVP: TBD");
+    setTeamCrest(document.getElementById("lastHomeCrest"), lastMatch.homeTeam, "Brazil");
+    setTeamCrest(document.getElementById("lastAwayCrest"), lastMatch.awayTeam, "Japan");
   }
 
   if (nextMatch) {
@@ -93,6 +199,8 @@ async function renderDashboard() {
     updateText("nextMatchVenue", nextMatch.venue || "Estadio");
     updateText("nextMatchDate", nextMatch.date ? formatSpanishDate(nextMatch.date) : "Fecha");
     updateText("nextMatchTime", nextMatch.date ? `${formatSpanishTime(nextMatch.date)} UTC` : "Hora");
+    setTeamCrest(document.getElementById("nextHomeCrest"), nextMatch.homeTeam, "Germany");
+    setTeamCrest(document.getElementById("nextAwayCrest"), nextMatch.awayTeam, "Paraguay");
     if (window.updateNextMatchCountdown && nextMatch.date) {
       window.updateNextMatchCountdown(nextMatch.date);
     }

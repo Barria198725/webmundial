@@ -1,0 +1,559 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Partidos - Mundo Fútbol 2026{% endblock %}
+
+{% block extra_head %}
+  <style>
+    .partidos-page {
+      padding: 40px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .partidos-header {
+      text-align: center;
+      margin-bottom: 40px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .partidos-header h2 {
+      font-size: clamp(2rem, 2.6vw, 2.8rem);
+      color: var(--text);
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .partidos-header p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .phase-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--card-border);
+      border-radius: 9999px;
+      background: var(--card-bg);
+      color: var(--muted);
+      font-weight: 700;
+      padding: 12px 22px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover {
+      background: var(--primary-dark);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .fase-contenedor {
+      display: none;
+    }
+
+    .fase-contenedor.active {
+      display: block;
+    }
+
+    .grid-partidos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .match-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .match-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 55px rgba(15, 23, 42, 0.12);
+    }
+
+    .match-card.decided {
+      border-color: var(--accent-mint);
+      box-shadow: 0 14px 40px rgba(0, 189, 165, 0.08);
+    }
+
+    .match-card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .match-fase-badge {
+      color: #ea580c;
+    }
+
+    .match-card-body {
+      display: grid;
+      gap: 14px;
+    }
+
+    .team-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .team-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .team-name.espera {
+      color: #94a3b8;
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    .team-name i {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: #eef2ff;
+      color: #7c3aed;
+      font-size: 0.95rem;
+    }
+
+    .score-box {
+      width: 60px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      background: #f8fafc;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .score-box:focus {
+      border-color: var(--accent-mint);
+      box-shadow: 0 0 0 4px rgba(0, 189, 165, 0.12);
+      background: white;
+    }
+
+    .match-card-footer {
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 16px;
+    }
+
+    .match-card-footer span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action-register {
+      margin-top: 4px;
+      border: none;
+      border-radius: 14px;
+      background: #f1f5f9;
+      color: var(--text);
+      font-weight: 700;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-action-register:hover {
+      background: var(--accent-mint);
+      color: white;
+    }
+
+    .team-advanced {
+      display: inline-block;
+      background: var(--accent-mint);
+      color: white;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      margin-left: 8px;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 36px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200;
+      padding: 24px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 820px;
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.4);
+      border: 1px solid var(--card-border);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .partidos-page {
+        padding: 28px 16px 60px;
+      }
+
+      .team-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .match-card {
+        padding: 20px;
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <main class="partidos-page">
+    <section class="partidos-header">
+      <span class="eyebrow">Partidos</span>
+      <h2>Fixture & resultados del Mundial 2026</h2>
+      <p>Consulta los horarios, estadios y resultados reales. Esta página solo muestra datos definidos en la fuente estática.</p>
+      <div style="display:flex;justify-content:center;margin-top:10px;gap:10px;">
+        <button class="tab-btn" onclick="reloadFromStatic()">Sincronizar desde data</button>
+      </div>
+    </section>
+
+    <section class="phase-tabs">
+      <button class="tab-btn" type="button" onclick="switchPhase('todos', this)">Todos</button>
+      <button class="tab-btn active" type="button" onclick="switchPhase('grupos', this)">Fase de Grupos</button>
+      <button class="tab-btn" type="button" onclick="switchPhase('dieciseisavos', this)">16avos</button>
+      <button class="tab-btn" type="button" onclick="switchPhase('octavos', this)">Octavos</button>
+      <button class="tab-btn" type="button" onclick="switchPhase('cuartos', this)">Cuartos</button>
+      <button class="tab-btn" type="button" onclick="switchPhase('finales', this)">Semifinal / Final</button>
+    </section>
+
+    <div id="todos" class="fase-contenedor">
+      <div class="grid-partidos" id="grid-todos"></div>
+    </div>
+
+    <div id="grupos" class="fase-contenedor active">
+      <div class="grid-partidos" id="grid-grupos"></div>
+    </div>
+    <div id="dieciseisavos" class="fase-contenedor">
+      <div class="grid-partidos" id="grid-dieciseisavos"></div>
+    </div>
+    <div id="octavos" class="fase-contenedor">
+      <div class="grid-partidos" id="grid-octavos"></div>
+    </div>
+    <div id="cuartos" class="fase-contenedor">
+      <div class="grid-partidos" id="grid-cuartos"></div>
+    </div>
+    <div id="finales" class="fase-contenedor">
+      <div class="grid-partidos" id="grid-finales"></div>
+    </div>
+  </main>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+    const partidos = [];
+    const partidosJsonUrl = "{% static 'data/partidos.json' %}";
+
+    async function initDatabase() {
+      try {
+        const resp = await fetch(partidosJsonUrl, { cache: 'no-cache' });
+        if (!resp.ok) throw new Error('No se pudo cargar la data estática');
+
+        const data = await resp.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error('No hay partidos definidos en la data');
+        }
+
+        partidos.push(...data);
+        renderSchedule();
+      } catch (error) {
+        console.error(error);
+        renderEmptyState('No hay datos disponibles. Haz clic en "Sincronizar desde data" para recargar la fuente estática.');
+      }
+    }
+
+    async function reloadFromStatic() {
+      try {
+        const resp = await fetch(partidosJsonUrl, { cache: 'no-cache' });
+        if (!resp.ok) throw new Error('No se pudo cargar la data estática');
+
+        const data = await resp.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error('No hay partidos definidos en la data');
+        }
+
+        partidos.length = 0;
+        partidos.push(...data);
+        renderSchedule();
+        alert('Sincronización completada.');
+      } catch (error) {
+        alert('No fue posible cargar la data estática.');
+        console.error(error);
+      }
+    }
+
+    function renderEmptyState(message) {
+      const grids = [
+        document.getElementById('grid-todos'),
+        document.getElementById('grid-grupos'),
+        document.getElementById('grid-dieciseisavos'),
+        document.getElementById('grid-octavos'),
+        document.getElementById('grid-cuartos'),
+        document.getElementById('grid-finales'),
+      ];
+      const html = `<div class="empty-state">${message}</div>`;
+      grids.forEach(grid => { if (grid) grid.innerHTML = html; });
+    }
+
+    function renderSchedule() {
+      const grids = {
+        todos: document.getElementById('grid-todos'),
+        grupos: document.getElementById('grid-grupos'),
+        dieciseisavos: document.getElementById('grid-dieciseisavos'),
+        octavos: document.getElementById('grid-octavos'),
+        cuartos: document.getElementById('grid-cuartos'),
+        finales: document.getElementById('grid-finales'),
+      };
+
+      Object.values(grids).forEach(grid => { if (grid) grid.innerHTML = ''; });
+      if (partidos.length === 0) {
+        renderEmptyState('No hay partidos cargados.');
+        return;
+      }
+
+      partidos.forEach(match => {
+        const decided = match.goles1 !== '' && match.goles2 !== '' && match.goles1 != null && match.goles2 != null;
+        const winnerLabel = decided
+          ? (parseInt(match.goles1, 10) > parseInt(match.goles2, 10)
+            ? match.equipo1
+            : (parseInt(match.goles2, 10) > parseInt(match.goles1, 10)
+              ? match.equipo2
+              : (match.winner || 'En penales')))
+          : '';
+
+        const team1Badge = match.equipo1_from ? `<span class="team-advanced">Avanzó (#${match.equipo1_from})</span>` : '';
+        const team2Badge = match.equipo2_from ? `<span class="team-advanced">Avanzó (#${match.equipo2_from})</span>` : '';
+        const esEspera1 = (match.equipo1 || '').toString().toLowerCase().includes('espera') ? 'espera' : '';
+        const esEspera2 = (match.equipo2 || '').toString().toLowerCase().includes('espera') ? 'espera' : '';
+
+        const team1HTML = `<div class="team-name ${esEspera1}"><i class="fa-solid fa-shield-halved"></i> ${match.equipo1 || ''} ${team1Badge}</div>`;
+        const team2HTML = `<div class="team-name ${esEspera2}"><i class="fa-solid fa-shield-halved"></i> ${match.equipo2 || ''} ${team2Badge}</div>`;
+
+        const cardHTML = `
+          <div class="match-card ${decided ? 'decided' : ''}" onclick="openMatch(${match.id})">
+            <div class="match-card-header">
+              <span>Partido #${match.id}</span>
+              <span class="match-fase-badge">${match.fase || 'Fase desconocida'}</span>
+            </div>
+            <div class="match-card-body">
+              <div class="team-row">
+                ${team1HTML}
+                <input type="number" class="score-box" value="${match.goles1 || ''}" min="0" onclick="event.stopPropagation()" onchange="updateScore(${match.id}, 1, this.value)">
+              </div>
+              <div class="team-row">
+                ${team2HTML}
+                <input type="number" class="score-box" value="${match.goles2 || ''}" min="0" onclick="event.stopPropagation()" onchange="updateScore(${match.id}, 2, this.value)">
+              </div>
+            </div>
+            <div class="match-card-footer">
+              <span><i class="fa-solid fa-futbol"></i> ${match.estadio || 'Estadio no definido'}</span>
+              <span><i class="fa-solid fa-location-dot"></i> ${match.ciudad || 'Ubicación no definida'} — ${match.fecha || 'Fecha no definida'}</span>
+              ${decided ? `<span style="font-weight:800;color:var(--accent-mint);">Ganador: ${winnerLabel}</span>` : ''}
+            </div>
+            <button class="btn-action-register" onclick="event.stopPropagation(); calculateWinner(${match.id});">Registrar Marcador</button>
+          </div>
+        `;
+
+        if (grids.todos) grids.todos.innerHTML += cardHTML;
+
+        const normalizedPhase = normalizePhase(match.tipo || match.fase || 'grupos');
+        if (grids[normalizedPhase]) {
+          grids[normalizedPhase].innerHTML += cardHTML;
+        }
+      });
+    }
+
+    function normalizePhase(value) {
+      const key = value.toString().toLowerCase();
+      if (key.includes('grupo')) return 'grupos';
+      if (key.includes('16') || key.includes('dieciseis') || key.includes('diecisiete')) return 'dieciseisavos';
+      if (key.includes('octav')) return 'octavos';
+      if (key.includes('cuart')) return 'cuartos';
+      if (key.includes('semi') || key.includes('final')) return 'finales';
+      return 'grupos';
+    }
+
+    function updateScore(id, teamNum, value) {
+      const match = partidos.find(p => p.id === id);
+      if (match) {
+        match[`goles${teamNum}`] = value !== '' ? parseInt(value, 10) : '';
+      }
+    }
+
+    function calculateWinner(id) {
+      const match = partidos.find(p => p.id === id);
+      if (!match || match.goles1 === '' || match.goles2 === '') {
+        alert('Por favor, introduce ambos marcadores primero.');
+        return;
+      }
+
+      let winner = '';
+      if (match.goles1 > match.goles2) {
+        winner = match.equipo1;
+      } else if (match.goles2 > match.goles1) {
+        winner = match.equipo2;
+      } else {
+        winner = prompt(`Empate en el juego #${match.id}. Define el ganador por penales:`, match.equipo1 || 'Equipo 1');
+        if (!winner) winner = match.equipo1 || 'Equipo 1';
+      }
+
+      if (match.avance && match.avance.ganador) {
+        const target = match.avance.ganador;
+        const nextMatch = partidos.find(p => p.id === target.partidoId);
+        if (nextMatch) {
+          nextMatch[target.slot] = winner;
+          nextMatch[`${target.slot}_from`] = match.id;
+        }
+      }
+
+      renderSchedule();
+    }
+
+    function switchPhase(phaseId, button) {
+      document.querySelectorAll('.fase-contenedor').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(phaseId).classList.add('active');
+      button.classList.add('active');
+    }
+
+    function openMatch(id) {
+      const match = partidos.find(p => p.id === id);
+      if (!match) return;
+      document.getElementById('modal-title').textContent = `Partido #${match.id}`;
+      document.getElementById('modal-fecha').textContent = `${match.fase || ''} — ${match.ciudad || ''} — ${match.fecha || ''}`;
+      document.getElementById('modal-e1').textContent = match.equipo1 || '';
+      document.getElementById('modal-e2').textContent = match.equipo2 || '';
+      document.getElementById('modal-g1').value = match.goles1 || '';
+      document.getElementById('modal-g2').value = match.goles2 || '';
+      document.getElementById('modal-estadio').textContent = match.estadio || '';
+      const backdrop = document.getElementById('match-modal-backdrop');
+      backdrop.classList.add('active');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMatch() {
+      const backdrop = document.getElementById('match-modal-backdrop');
+      backdrop.classList.remove('active');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function saveModalScore() {
+      const idText = document.getElementById('modal-title').textContent || '';
+      const matchId = idText.match(/#(\d+)/);
+      if (!matchId) return closeMatch();
+      updateScore(parseInt(matchId[1], 10), 1, document.getElementById('modal-g1').value);
+      updateScore(parseInt(matchId[1], 10), 2, document.getElementById('modal-g2').value);
+      renderSchedule();
+      closeMatch();
+    }
+
+    document.addEventListener('DOMContentLoaded', initDatabase);
+  </script>
+  <div id="match-modal-backdrop" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <div class="modal-header">
+        <h3 id="modal-title">Partido</h3>
+        <button class="modal-close" onclick="closeMatch()" aria-label="Cerrar">✕</button>
+      </div>
+      <div id="modal-body">
+        <p id="modal-fecha" style="color:var(--muted)"></p>
+        <div style="display:flex;gap:18px;align-items:center;margin:12px 0;flex-wrap:wrap;">
+          <div style="flex:1;text-align:right;font-weight:800;font-size:1.25rem;" id="modal-e1"></div>
+          <div style="width:72px;text-align:center;"><input id="modal-g1" class="score-box" type="number" min="0" onclick="event.stopPropagation()"></div>
+          <div style="width:24px;text-align:center;font-weight:800;">vs</div>
+          <div style="width:72px;text-align:center;"><input id="modal-g2" class="score-box" type="number" min="0" onclick="event.stopPropagation()"></div>
+          <div style="flex:1;text-align:left;font-weight:800;font-size:1.25rem;" id="modal-e2"></div>
+        </div>
+        <div id="modal-estadio" style="color:var(--muted)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:18px;">
+        <button class="btn-action-register" onclick="saveModalScore()">Guardar</button>
+        <button class="btn-action-register" onclick="closeMatch()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

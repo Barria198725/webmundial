@@ -1,8 +1,5 @@
 from django.conf import settings
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.http import require_http_methods
-from .services.sports_api_service import SportsMonksService
 
 
 def index(request):
@@ -16,6 +13,23 @@ def login(request):
 def profile(request):
     return render(request, "profile.html", {"api_base_url": settings.API_BASE_URL})
 
+
+def history_view(request):
+    return render(request, 'history.html', {"api_base_url": settings.API_BASE_URL})
+
+
+def partidos(request):
+    return render(request, 'partidos.html', {"api_base_url": settings.API_BASE_URL})
+
+
+def country_detail(request, country_code):
+    country = COUNTRY_SEDES.get(country_code.upper())
+    if not country:
+        raise Http404("País no encontrado")
+    return render(request, "country_detail.html", {
+        "country": country,
+        "api_base_url": settings.API_BASE_URL,
+    })
 def history_view(request):
     return render(request, 'history.html', {"api_base_url": settings.API_BASE_URL})
 

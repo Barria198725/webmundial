@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ country.name }} | Mundial 2026{% endblock %}
+
+{% block content %}
+  <main class="page-container country-page">
+    <section class="country-hero">
+      <div class="country-hero__content">
+        <span class="eyebrow">Sede oficial</span>
+        <h1>{{ country.name }}</h1>
+        <p>{{ country.summary }}</p>
+        <div class="country-hero__badges">
+          <span class="hero-badge">FIFA 2026</span>
+          <span class="hero-badge">Sede anfitriona</span>
+        </div>
+        <div class="country-hero__actions">
+          <a href="{% url 'index' %}" class="button button--secondary">Volver al inicio</a>
+          <a href="{% url 'index' %}#hosts" class="button button--primary">Ver otras sedes</a>
+        </div>
+      </div>
+      <div class="country-hero__media">
+        <div class="hero-image-card">
+          <img src="{% static country.imagen_portada %}" alt="{{ country.name }}" />
+          <div class="hero-image-label">Imagen de portada</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="country-detail-section">
+      <div class="section-header section-header--wide">
+        <div>
+          <span>Estadios y programación</span>
+          <h2>Detalles por sede</h2>
+        </div>
+        <p class="section-description">Cada sede incluye información de estadio, capacidad, datos curiosos y el calendario de partidos asignados en el Mundial 2026.</p>
+      </div>
+
+      <div class="detail-grid">
+        {% for sede in country.sedes %}
+          <article class="detail-card">
+            <div class="detail-card__top">
+              <div>
+                <span class="badge-estado">{{ sede.estado }}</span>
+                <h3 class="detail-card__title">{{ sede.estadio }}</h3>
+                <p class="detail-card__location">{{ sede.ciudad }}</p>
+              </div>
+              <div class="detail-card__symbol">
+                <span>Estadio</span>
+              </div>
+            </div>
+
+            <div class="detail-card__body">
+              <div class="detail-card__visual">
+                <div class="visual-label">Vista previa</div>
+                <img src="{% static sede.imagen %}" alt="{{ sede.estadio }}" class="stadium-preview" />
+              </div>
+
+              <div class="detail-card__summary">
+                <h4>Ficha rápida</h4>
+                <table class="stadium-table">
+                  <tbody>
+                    <tr>
+                      <td>Capacidad</td>
+                      <td>{{ sede.capacidad }}</td>
+                    </tr>
+                    <tr>
+                      <td>Ciudad</td>
+                      <td>{{ sede.ciudad }}</td>
+                    </tr>
+                    <tr>
+                      <td>Región</td>
+                      <td>{{ sede.estado }}</td>
+                    </tr>
+                    <tr>
+                      <td>Tipo</td>
+                      <td>Estadio multiuso</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="detail-card__curiosity">
+              <h4>Dato destacado</h4>
+              <p>{{ sede.dato_curioso }}</p>
+            </div>
+
+            <div class="detail-card__matches">
+              <div class="detail-card__matches-header">
+                <h4>Partidos agendados</h4>
+                <span class="match-count">{{ sede.partidos|length }} encuentros</span>
+              </div>
+              <div class="matches-table-wrap">
+                <table class="matches-table">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Fase</th>
+                      <th>Rivales</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for partido in sede.partidos %}
+                      <tr>
+                        <td>{{ partido.fecha }}</td>
+                        <td>{{ partido.fase }}</td>
+                        <td>{{ partido.rivales }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+{% endblock %}
