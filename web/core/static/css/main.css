@@ -40,8 +40,10 @@ button, input {
   gap: 20px;
   padding: 20px 40px;
   background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
@@ -316,11 +318,13 @@ button, input {
 .sports-ticker {
   position: relative;
   overflow: hidden;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
+  background: rgba(18, 24, 40, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+
   width: auto;
   margin: 0;
   z-index: 5;
@@ -469,7 +473,9 @@ button, input {
   }
 
   .dashboard-row > * {
-    min-height: auto;
+  min-height: 0;
+
+
   }
 
   .final-countdown {
@@ -505,6 +511,7 @@ button, input {
   border: 1px solid var(--card-border);
   border-radius: 18px;
   padding: 10px 8px;
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.07);
   min-height: 0;
@@ -659,9 +666,11 @@ button, input {
   padding: 8px 6px;
   background: var(--card-bg);
   border-radius: 16px;
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(255,255,255,0.08);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   overflow: hidden;
+
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.07);
 }
 
@@ -693,7 +702,9 @@ button, input {
   color: var(--text);
   font-weight: 600;
   letter-spacing: 0.01em;
-  min-width: fit-content;
+  min-width: -webkit-fill-available;
+  min-width: -webkit-fill-available;
+  /* min-width: fit-content; */
   font-size: 0.6rem;
 }
 
@@ -974,6 +985,7 @@ button, input {
 }
 
 .predictions__blur {
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   background: rgba(11,15,25,0.65);
   border-radius: 24px;
@@ -1083,11 +1095,64 @@ button, input {
   color: #3498db;
 }
 
-.legend-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0,255,135,0.28);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+.legend-card {
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
 }
+
+.legend-card::after {
+  content: "👆 Ver trayectoria";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--neon-green), var(--gold));
+  color: #0b0f19;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.legend-card:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.legend-card:not(:hover)::after {
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.legend-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0,255,135,0.35);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,255,135,0.10);
+}
+
+/* Pulse glow enticement - alternates softly to invite clicks */
+@keyframes legend-pulse {
+  0%, 100% { box-shadow: 0 0 0px rgba(0,255,135,0); border-color: rgba(255,255,255,0.08); }
+  50% { box-shadow: 0 0 18px rgba(0,255,135,0.08); border-color: rgba(0,255,135,0.12); }
+}
+
+.legend-card {
+  animation: legend-pulse 3s ease-in-out infinite;
+}
+
+.legend-card:nth-child(2) { animation-delay: 0.3s; }
+.legend-card:nth-child(3) { animation-delay: 0.6s; }
+.legend-card:nth-child(4) { animation-delay: 0.9s; }
+.legend-card:nth-child(5) { animation-delay: 1.2s; }
+.legend-card:nth-child(6) { animation-delay: 1.5s; }
+.legend-card:nth-child(7) { animation-delay: 1.8s; }
+.legend-card:nth-child(8) { animation-delay: 2.1s; }
 
 .legend-card--player {
   gap: 14px;
@@ -1116,6 +1181,142 @@ button, input {
   margin: 0;
   font-size: 1.05rem;
   font-weight: 800;
+}
+
+.legend-card.is-selected {
+  transform: translateY(-6px);
+  border-color: rgba(0,255,135,0.28);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+}
+
+.legend-detail {
+  margin-top: 26px;
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(0, 212, 255, 0.12);
+  border-radius: 24px;
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+}
+
+.legend-detail__header {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.legend-detail__media {
+  width: 92px;
+  height: 92px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(0,255,135,0.10), rgba(255,183,3,0.10));
+  border: 1px solid rgba(255,255,255,0.08);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.legend-detail__media img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 22px;
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,0.35));
+}
+
+.legend-detail__title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.legend-detail__subtitle {
+  margin: 6px 0 0;
+  color: #ffffff;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.legend-detail__body {
+  color: #ffffff;
+  line-height: 1.7;
+}
+
+.legend-detail__body p {
+  margin: 0 0 10px;
+}
+
+.legend-detail__body p:last-child {
+  margin-bottom: 0;
+}
+
+.legend-detail__placeholder {
+  color: #ffffff;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+/* Legend stats badges */
+.legend-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.legend-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,255,135,0.08);
+  border: 1px solid rgba(0,255,135,0.15);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  color: var(--white);
+}
+
+.legend-stat strong {
+  color: var(--gold);
+  font-size: 0.9rem;
+}
+
+/* Legend clubs / trayectoria */
+.legend-clubs {
+  margin-bottom: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.legend-clubs__label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--neon-green);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.legend-clubs__list {
+  font-size: 0.82rem;
+  color: var(--gray);
+  line-height: 1.7;
+}
+
+.legend-club-arrow {
+  color: var(--gold);
+  font-weight: 700;
+  margin: 0 2px;
+}
+
+@media (max-width: 640px) {
+  .legend-detail__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* ====== Tablas de grupos ====== */

@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Leyendas del Fútbol Mundial{% endblock %}
+
+{% block content %}
+
+<style>
+  /* ===== BLUE DARK FLUORESCENT THEME ===== */
+  :root {
+    --blue-dark: #0a1628;
+    --blue-fluo: #00d4ff;
+    --blue-fluo-dim: rgba(0, 212, 255, 0.15);
+    --blue-card: rgba(10, 22, 40, 0.85);
+    --blue-border: rgba(0, 212, 255, 0.12);
+  }
+
+  /* Hero section - azul oscuro fluorescente dinámico */
+  .legends-hero {
+    position: relative;
+    min-height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 30%, #0a1628 60%, #061020 100%);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+  }
+
+  /* Dynamic animated glow orbs */
+  .legends-hero::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    right: -150px;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+    animation: hero-orb-drift 12s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  .legends-hero::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    bottom: -100px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.04) 0%, transparent 70%);
+    animation: hero-orb-drift 8s ease-in-out infinite alternate-reverse;
+    pointer-events: none;
+  }
+
+  @keyframes hero-orb-drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(60px, 40px) scale(1.3); }
+  }
+
+  .legends-hero h1 {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    margin: 0;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .legends-hero h1 span {
+    color: #00eeff;
+    text-shadow: 0 0 30px rgba(0, 238, 255, 0.4);
+  }
+
+  .legends-hero p {
+    color: #ffffff;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 18px auto 0;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  /* Main section - dark blue fluorescent */
+  .legends-page {
+    padding: 60px 40px 100px;
+    background: radial-gradient(ellipse at top, rgba(0, 212, 255, 0.02) 0%, transparent 50%),
+                linear-gradient(180deg, #0a1628 0%, #080e1a 100%);
+  }
+
+  .legends-page .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .legends-page .section-header span {
+    color: #00eeff;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    font-weight: 700;
+  }
+
+  .legends-page .section-header h2 {
+    font-size: clamp(2rem, 3vw, 3rem);
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .legends-page .section-header p {
+    color: #ffffff;
+    max-width: 600px;
+    margin: 16px auto 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  .legend-grid--page {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+  }
+
+  /* Override legend card for blue theme */
+  .legends-page .legend-card {
+    background: var(--blue-card);
+    border-color: var(--blue-border);
+    backdrop-filter: blur(10px);
+  }
+
+  .legends-page .legend-card .legend-card__media {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.10), rgba(0, 100, 255, 0.10));
+    border-color: rgba(0, 212, 255, 0.10);
+  }
+
+  .legends-page .legend-card__name {
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .legends-page .legend-card:hover {
+    border-color: rgba(0, 212, 255, 0.35);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.5), 0 0 40px rgba(0, 212, 255, 0.10);
+  }
+
+  .legends-page .legend-card.is-selected {
+    border-color: #00eeff;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+  }
+
+  /* Legend-detail blue theme */
+  .legends-page .legend-detail {
+    background: rgba(10, 22, 40, 0.9);
+    border-color: rgba(0, 212, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .legends-page .legend-detail__title {
+    color: #ffffff;
+    font-weight: 900;
+  }
+
+  .legends-page .legend-detail__subtitle {
+    color: #ffffff;
+    opacity: 0.8;
+    font-weight: 500;
+  }
+
+  .legends-page .legend-detail__body {
+    color: #ffffff;
+    font-weight: 400;
+  }
+
+  .legends-page .legend-detail__body p {
+    color: #ffffff;
+    font-weight: 400;
+  }
+
+  .legends-page .legend-detail__body strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .legends-page .legend-detail__placeholder {
+    color: #ffffff;
+    opacity: 0.6;
+    font-weight: 500;
+  }
+
+  .legends-page .legend-detail__media {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.10), rgba(0, 100, 255, 0.10));
+    border-color: rgba(0, 212, 255, 0.10);
+  }
+
+  /* Stats badges blue */
+  .legends-page .legend-stat {
+    background: rgba(0, 212, 255, 0.08);
+    border-color: rgba(0, 212, 255, 0.15);
+  }
+
+  .legends-page .legend-stat strong {
+    color: var(--blue-fluo);
+  }
+
+  .legends-page .legend-clubs {
+    background: rgba(0, 212, 255, 0.03);
+    border-color: rgba(0, 212, 255, 0.06);
+  }
+
+  .legends-page .legend-clubs__label {
+    color: var(--blue-fluo);
+  }
+
+  .legends-page .legend-club-arrow {
+    color: var(--blue-fluo);
+  }
+
+  /* Badge "Ver trayectoria" */
+  .legends-page .legend-card::after {
+    background: linear-gradient(135deg, var(--blue-fluo), #0088ff);
+    color: #0a1628;
+  }
+
+  /* Pulse animation blue */
+  @keyframes legend-pulse-blue {
+    0%, 100% { box-shadow: 0 0 0px rgba(0,212,255,0); border-color: rgba(0,212,255,0.08); }
+    50% { box-shadow: 0 0 18px rgba(0,212,255,0.06); border-color: rgba(0,212,255,0.10); }
+  }
+
+  .legends-page .legend-card {
+    animation: legend-pulse-blue 3s ease-in-out infinite;
+  }
+
+  .legends-page .legend-card:nth-child(2) { animation-delay: 0.3s; }
+  .legends-page .legend-card:nth-child(3) { animation-delay: 0.6s; }
+  .legends-page .legend-card:nth-child(4) { animation-delay: 0.9s; }
+  .legends-page .legend-card:nth-child(5) { animation-delay: 1.2s; }
+  .legends-page .legend-card:nth-child(6) { animation-delay: 1.5s; }
+  .legends-page .legend-card:nth-child(7) { animation-delay: 1.8s; }
+  .legends-page .legend-card:nth-child(8) { animation-delay: 2.1s; }
+
+  /* Copa logo floating animation */
+  .copa-float {
+    display: inline-block;
+    animation: copa-bounce 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.2));
+  }
+
+  @keyframes copa-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-8px) rotate(-3deg); }
+    75% { transform: translateY(-4px) rotate(3deg); }
+  }
+
+  @media (max-width: 640px) {
+    .legends-page { padding: 40px 20px; }
+    .legends-hero { padding: 60px 20px; min-height: 30vh; }
+  }
+</style>
+
+<section class="legends-hero">
+  <div>
+    <h1><span class="copa-float">🏆</span> Leyendas del <span>Fútbol</span></h1>
+    <p>Iconos eternos que marcaron la historia de los Mundiales. Haz clic en cada uno para descubrir su trayectoria futbolística completa.</p>
+  </div>
+</section>
+
+<section class="legends-page" id="legends">
+  <div class="section-header">
+    <span>✦ ICONOS ETERNOS ✦</span>
+    <h2>Jugadores legendarios</h2>
+    <p>Cada uno de estos futbolistas dejó una huella imborrable en la Copa del Mundo. Selecciona uno para ver su historia.</p>
+  </div>
+
+  <div class="legend-grid legend-grid--page">
+    <article class="legend-card legend-card--player" data-player="pele" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/pele.png" alt="Pelé" />
+      </div>
+      <h3 class="legend-card__name">Pelé</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="maradona" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/maradona.png" alt="Maradona" />
+      </div>
+      <h3 class="legend-card__name">Maradona</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="cruyff" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/cruyff.png" alt="Cruyff" />
+      </div>
+      <h3 class="legend-card__name">Cruyff</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="ronaldo" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/ronaldo.png" alt="Ronaldo" />
+      </div>
+      <h3 class="legend-card__name">Ronaldo</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="messi" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/messi.png" alt="Messi" />
+      </div>
+      <h3 class="legend-card__name">Messi</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="zidane" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/zidane.png" alt="Zidane" />
+      </div>
+      <h3 class="legend-card__name">Zidane</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="cristiano-ronaldo" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/cristiano ronaldo.png" alt="Cristiano Ronaldo" />
+      </div>
+      <h3 class="legend-card__name">Cristiano Ronaldo</h3>
+    </article>
+
+    <article class="legend-card legend-card--player" data-player="ronaldinho" tabindex="0">
+      <div class="legend-card__media">
+        <img class="legend-card__img" src="/static/IMG/futbolistas/ronaldinho.png" alt="Ronaldinho" />
+      </div>
+      <h3 class="legend-card__name">Ronaldinho</h3>
+    </article>
+  </div>
+
+  <div class="legend-detail" id="legend-detail" aria-live="polite">
+    <div class="legend-detail__header">
+      <div class="legend-detail__media">
+        <img id="legend-detail-img" src="/static/IMG/futbolistas/copa.jpg" alt="Copa del Mundo" />
+      </div>
+      <div>
+        <h3 id="legend-detail-title" class="legend-detail__title">🏆 Selecciona una leyenda</h3>
+        <p id="legend-detail-subtitle" class="legend-detail__subtitle">Haz clic en un icono para ver su trayectoria mundial futbolística.</p>
+      </div>
+    </div>
+    <div class="legend-detail__body" id="legend-detail-body">
+      <p class="legend-detail__placeholder">La Copa del Mundo te espera... elige una leyenda.</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/legends.js' %}?v=2"></script>
+{% endblock %}

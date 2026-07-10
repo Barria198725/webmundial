@@ -1,5 +1,9 @@
 from django.conf import settings
 from django.shortcuts import render
+from django.http import Http404, JsonResponse
+from django.views.decorators.http import require_http_methods
+
+
 
 
 def index(request):
@@ -32,6 +36,10 @@ def country_detail(request, country_code):
     })
 def history_view(request):
     return render(request, 'history.html', {"api_base_url": settings.API_BASE_URL})
+
+def legends_view(request):
+    """Vista independiente para la página de Leyendas"""
+    return render(request, 'legends.html', {"api_base_url": settings.API_BASE_URL})
 
 def news_view(request):
     """Vista para el página de noticias"""
