@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% load static %}
-
 {% block content %}
 
   <main>
@@ -121,36 +119,39 @@
     </div>
 
     <section id="hosts" class="hosts">
-      <div class="section-header">
+      <div class="section-header" style="margin-bottom:1.5rem;">
         <span>El Mundial Más Grande</span>
         <h2>Sedes del mundial</h2>
       </div>
+      <p style="max-width:760px; color:#cdd4df; margin:0 0 2rem; line-height:1.7;">
+        Tres grandes países abrirán las puertas al torneo con estadios icónicos, ambiente de fiesta y una infraestructura preparada para recibir a millones de hinchas.
+      </p>
       <div class="host-grid">
         <a class="host-card" href="{% url 'country_detail' 'USA' %}" data-country="USA" tabindex="0">
           <div class="host-card__flag">
-            <img src="{% static 'images/sedes/Estados Unidos.png' %}" alt="Estados Unidos" />
-          </div>
+              <img src="{% static 'images/sedes/Estados Unidos.png' %}?v=1" alt="Sede Estados Unidos" loading="lazy" decoding="async" />
+            </div>
           <div class="host-card__meta">
             <h3>Estados Unidos</h3>
-            <p>Una de las sedes principales del torneo.</p>
+            <p>Estadios modernos, gran capacidad y una experiencia internacional para los fanáticos.</p>
           </div>
         </a>
         <a class="host-card" href="{% url 'country_detail' 'MEX' %}" data-country="MEX" tabindex="0">
           <div class="host-card__flag">
-            <img src="{% static 'images/sedes/Mexico.png' %}" alt="México" />
+            <img src="{% static 'images/sedes/Mexico.png' %}?v=1" alt="Sede México" loading="lazy" decoding="async" />
           </div>
           <div class="host-card__meta">
             <h3>México</h3>
-            <p>Host de gran tradición futbolística en la competición.</p>
+            <p>Una sede con identidad futbolera, historia y pasión que siempre emociona al mundo.</p>
           </div>
         </a>
         <a class="host-card" href="{% url 'country_detail' 'CAN' %}" data-country="CAN" tabindex="0">
           <div class="host-card__flag">
-            <img src="{% static 'images/sedes/Canada.png' %}" alt="Canadá" />
+            <img src="{% static 'images/sedes/Canada.png' %}?v=1" alt="Sede Canadá" loading="lazy" decoding="async" />
           </div>
           <div class="host-card__meta">
             <h3>Canadá</h3>
-            <p>Completa la tríada de sedes del Mundial 2026.</p>
+            <p>Una propuesta contemporánea que suma energía, organización y una gran bienvenida al torneo.</p>
           </div>
         </a>
       </div>
@@ -167,6 +168,15 @@
           <div>Ghana</div>
         </div>
       </div>
+    </section>
+
+    <section id="news-teaser" class="news-teaser" style="max-width:1200px; margin:2rem auto; padding:0 1rem; text-align:center;">
+      <div class="section-header" style="margin-bottom:1rem;">
+        <span>Noticias</span>
+        <h2>Últimas noticias y novedades</h2>
+      </div>
+      <p style="color:#6b7280; max-width:780px; margin:0 auto 1.25rem;">Ahora las noticias tienen su propia página dedicada con feed, filtros y detalles. Haz clic para ver todas las noticias.</p>
+      <a class="button button--primary" href="{% url 'news_page' %}">Ir a Noticias</a>
     </section>
 
     <section id="groups" class="calendar-panel">
@@ -325,4 +335,6 @@
     </section>
 
   </main>
+
+{% block extra_scripts %}{% endblock %}
 {% endblock %}

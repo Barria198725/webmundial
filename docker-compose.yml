@@ -45,6 +45,8 @@ services:
       - '8000:8000'
     environment:
       API_BASE_URL: http://api:3000
+    volumes:
+      - ./web:/usr/src/app
     depends_on:
       api:
         condition: service_healthy

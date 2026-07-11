@@ -1,11 +1,15 @@
 import os
 from pathlib import Path
 
+# Carga variables de entorno desde .env
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-replace-this-key"
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-replace-this-key")
 DEBUG = True
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "localhost:8000", "127.0.0.1:8000"]
 
 INSTALLED_APPS = [
     "django.contrib.staticfiles",

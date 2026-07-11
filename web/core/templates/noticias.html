@@ -1,31 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Noticias | Mundial 2026{% endblock %}
+
 {% block content %}
-<main>
-  <!-- Hero Section -->
-  <section class="hero hero--noticias">
-    <div class="hero__overlay"></div>
-    <div class="hero__background">
-      <img src="{% static 'images/fondo/estadio.png' %}" alt="Estadio" class="hero__image" />
-    </div>
-    <div class="hero__content">
-      <span class="eyebrow">Información en Vivo</span>
-      <h1>Noticias del Mundial FIFA 2026</h1>
-      <p>Actualización en tiempo real de eventos, resultados y novedades del torneo.</p>
+<main class="news-page">
+  <section class="news-hero">
+    <div class="news-hero__content">
+      <span class="eyebrow">Noticias del Mundial</span>
+      <h1>Últimas noticias, clasificación y novedades del torneo</h1>
+      <p>Mantente al día con los partidos, los equipos y las historias que marcan la ruta a la Copa del Mundo 2026.</p>
     </div>
   </section>
 
-  <!-- Main Content -->
-  <div class="news-container">
-    <!-- Sidebar with Filters/Info -->
+
+  <section class="news-shell">
     <aside class="news-sidebar">
       <div class="sidebar-card">
-        <h3>Información del Torneo</h3>
+        <h3>Información del torneo</h3>
         <div id="tournament-info" class="tournament-info">
-          <div class="loading-spinner">
+          <div class="loading-state">
             <div class="spinner"></div>
-            <p>Cargando información del mundial...</p>
+            <p>Cargando información...</p>
           </div>
         </div>
       </div>
@@ -33,7 +29,7 @@
       <div class="sidebar-card">
         <h3>Clasificación</h3>
         <div id="standings-info" class="standings-info">
-          <div class="loading-spinner">
+          <div class="loading-state">
             <div class="spinner"></div>
             <p>Cargando clasificación...</p>
           </div>
@@ -41,11 +37,10 @@
       </div>
     </aside>
 
-    <!-- News Grid -->
-    <section class="news-grid-section">
-      <div class="section-header">
+    <section class="news-content">
+      <div class="news-toolbar">
         <h2>Últimas Noticias</h2>
-        <div class="filters">
+        <div class="filters" role="toolbar" aria-label="Filtros de noticias">
           <button class="filter-btn active" data-filter="all">Todas</button>
           <button class="filter-btn" data-filter="matches">Partidos</button>
           <button class="filter-btn" data-filter="standings">Clasificación</button>
@@ -54,440 +49,328 @@
       </div>
 
       <div id="news-grid" class="news-grid">
-        <div class="loading-spinner">
+        <div class="loading-state">
           <div class="spinner"></div>
           <p>Cargando noticias...</p>
         </div>
       </div>
     </section>
-  </div>
+  </section>
 
-  <!-- Modal para ver detalles -->
-  <div id="news-modal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close">&times;</span>
+  <div id="news-modal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" aria-label="Cerrar noticia">&times;</button>
       <div id="modal-body"></div>
     </div>
   </div>
 </main>
+{% endblock %}
 
+{% block extra_head %}
 <style>
-/* Hero Section */
-.hero--noticias {
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
-.hero--noticias .hero__overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 2;
-}
-
-.hero--noticias .hero__content {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  color: white;
-}
-
-.hero--noticias h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.hero--noticias p {
-  font-size: 1.1rem;
-  color: #ddd;
-}
-
-/* Layout */
-.news-container {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 3rem auto;
-  padding: 0 2rem;
-}
-
-@media (max-width: 1024px) {
-  .news-container {
-    grid-template-columns: 1fr;
+  .news-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f4f7fb 0%, #eef4fb 100%);
   }
-  
+
+  .news-hero {
+    background: linear-gradient(120deg, #062d5e 0%, #0f6ccf 100%);
+    color: #fff;
+    padding: 4.5rem 1.5rem 3.5rem;
+    text-align: center;
+  }
+
+  .news-hero__content {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .news-hero h1 {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    margin: 0.75rem 0 1rem;
+  }
+
+  .news-hero p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .news-shell {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 2rem;
+  }
+
   .news-sidebar {
-    grid-row: 2;
-    order: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
-}
 
-/* Sidebar */
-.news-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
+  .sidebar-card,
+  .news-content {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 16px 35px rgba(6, 20, 45, 0.08);
+    padding: 1.25rem;
+  }
 
-.sidebar-card {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+  .sidebar-card h3,
+  .news-toolbar h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #102542;
+  }
 
-.sidebar-card h3 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  color: #333;
-  border-bottom: 2px solid #00a86b;
-  padding-bottom: 0.5rem;
-}
+  .tournament-info, .standings-info {
+    color: #48556a;
+  }
 
-/* Tournament Info */
-.tournament-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+  .tournament-info-item {
+    margin-bottom: 0.85rem;
+  }
 
-.tournament-info-item {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #eee;
-}
+  .tournament-info-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0f6ccf;
+    margin-bottom: 0.2rem;
+  }
 
-.tournament-info-item:last-child {
-  border-bottom: none;
-}
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
 
-.tournament-info-label {
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 600;
-  text-transform: uppercase;
-}
+  .standings-table th,
+  .standings-table td {
+    text-align: left;
+    padding: 0.55rem 0.35rem;
+    border-bottom: 1px solid #edf1f7;
+  }
 
-.tournament-info-value {
-  font-size: 1.1rem;
-  color: #00a86b;
-  font-weight: 700;
-  margin-top: 0.25rem;
-}
+  .news-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
 
-/* Standings */
-.standings-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
 
-.standings-table {
-  width: 100%;
-  font-size: 0.9rem;
-}
+  .filter-btn {
+    border: 1px solid #dbe4f0;
+    background: #fff;
+    color: #37506b;
+    border-radius: 999px;
+    padding: 0.7rem 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 
-.standings-table th {
-  background: #f5f5f5;
-  padding: 0.5rem;
-  text-align: left;
-  font-weight: 600;
-  border-bottom: 1px solid #ddd;
-}
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: #0f6ccf;
+    color: #fff;
+    border-color: #0f6ccf;
+  }
 
-.standings-table td {
-  padding: 0.5rem;
-  border-bottom: 1px solid #eee;
-}
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
 
-.standings-table .team-name {
-  font-weight: 600;
-  color: #333;
-}
+  .news-card {
+    border-radius: 16px;
+    border: 1px solid #e9eef6;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(6, 20, 45, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-/* News Grid Section */
-.news-grid-section {
-  grid-column: 2;
-}
+  .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(6, 20, 45, 0.1);
+  }
 
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
+  .news-card__image {
+    height: 160px;
+    background: linear-gradient(135deg, #ecf4ff 0%, #dbeafe 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #0f6ccf;
+  }
 
-.section-header h2 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: #333;
-}
+  .news-card__content {
+    padding: 1rem;
+  }
 
-.filters {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
+  .news-card__date {
+    font-size: 0.82rem;
+    color: #678;
+    margin-bottom: 0.5rem;
+  }
 
-.filter-btn {
-  padding: 0.6rem 1.2rem;
-  border: 2px solid #ddd;
-  background: white;
-  color: #333;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s;
-  font-weight: 600;
-}
+  .news-card__title {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: #102542;
+  }
 
-.filter-btn:hover {
-  border-color: #00a86b;
-  color: #00a86b;
-}
+  .news-card__description {
+    margin: 0 0 0.8rem;
+    color: #576475;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
 
-.filter-btn.active {
-  background: #00a86b;
-  color: white;
-  border-color: #00a86b;
-}
+  .news-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
 
-/* News Grid */
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-}
+  .news-card__tag {
+    background: #eef7ff;
+    color: #0f6ccf;
+    border-radius: 999px;
+    padding: 0.32rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
 
-.news-card {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-}
+  .news-card__link {
+    color: #0f6ccf;
+    text-decoration: none;
+    font-weight: 700;
+  }
 
-.news-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
+  .loading-state {
+    min-height: 140px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: #546173;
+  }
 
-.news-card-image {
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 3rem;
-}
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #dbe4f0;
+    border-top-color: #0f6ccf;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 0.75rem;
+  }
 
-.news-card-content {
-  padding: 1.5rem;
-}
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(4, 15, 34, 0.72);
+    z-index: 1000;
+  }
 
-.news-card-date {
-  font-size: 0.8rem;
-  color: #999;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
+  .modal.active {
+    display: flex;
+  }
 
-.news-card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 0.75rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+  .modal-content {
+    background: #fff;
+    width: min(860px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 18px;
+    padding: 1.5rem 1.5rem 1.75rem;
+    position: relative;
+  }
 
-.news-card-description {
-  font-size: 0.9rem;
-  color: #666;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 1rem;
-}
+  .modal-close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.9rem;
+    border: none;
+    background: transparent;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #445267;
+  }
 
-.news-card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
+  .empty-state {
+    grid-column: 1 / -1;
+    padding: 2rem;
+    border-radius: 16px;
+    background: #f8fbff;
+    color: #445267;
+    text-align: center;
+    border: 1px solid #dbe6f3;
+  }
 
-.news-card-tag {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  background: #f0f0f0;
-  color: #00a86b;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 
-.news-card-read-more {
-  color: #00a86b;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-}
+  @media (max-width: 980px) {
+    .news-shell {
+      grid-template-columns: 1fr;
+    }
 
-/* Loading Spinner */
-.loading-spinner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: #999;
-}
+    .news-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 
-.spinner {
-  width: 30px;
-  height: 30px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #00a86b;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 1rem;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  animation: fadeIn 0.3s;
-}
-
-.modal.active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
-
-.modal-close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #999;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.modal-close:hover {
-  color: #333;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 3rem 2rem;
-  color: #999;
-}
-
-.empty-state-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.empty-state-title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #666;
-}
-
-.error-state {
-  grid-column: 1 / -1;
-  background: #fff3cd;
-  border: 1px solid #ffc107;
-  border-radius: 8px;
-  padding: 1.5rem;
-  color: #856404;
-  margin-bottom: 2rem;
-}
-
-.error-state-title {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
+  @media (max-width: 720px) {
+    .news-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
 </style>
+{% endblock %}
 
+{% block extra_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const API_BASE = "{{ api_base_url }}";
-  
-  // Elementos del DOM
   const newsGrid = document.getElementById('news-grid');
+  if (!newsGrid) return;
+
   const tournamentInfo = document.getElementById('tournament-info');
   const standingsInfo = document.getElementById('standings-info');
   const modal = document.getElementById('news-modal');
   const modalBody = document.getElementById('modal-body');
   const modalClose = document.querySelector('.modal-close');
   const filterBtns = document.querySelectorAll('.filter-btn');
-  
   let allNews = [];
-  
-  // Cargar noticias
+
   async function loadNews() {
     try {
       const response = await fetch('/api/world-cup-news/');
       const data = await response.json();
-      
-      if (data.data) {
+
+      if (data && data.data) {
         allNews = data.data;
         renderNews(allNews);
         loadTournamentInfo();
@@ -496,172 +379,155 @@ document.addEventListener('DOMContentLoaded', function() {
         showError('No se pudieron cargar las noticias');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error loading news:', error);
       showError('Error al conectar con el servidor');
     }
   }
-  
-  // Renderizar noticias
+
   function renderNews(newsArray) {
     if (!newsArray || newsArray.length === 0) {
       newsGrid.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">📰</div>
-          <div class="empty-state-title">No hay noticias disponibles</div>
-          <p>Intenta más tarde o cambia los filtros</p>
-        </div>
-      `;
+          <h3>No hay noticias disponibles</h3>
+          <p>Intenta más tarde o cambia los filtros.</p>
+        </div>`;
       return;
     }
-    
+
     newsGrid.innerHTML = newsArray.map((news, index) => `
-      <div class="news-card" onclick="openNewsModal(${index})">
-        <div class="news-card-image">📰</div>
-        <div class="news-card-content">
-          <div class="news-card-date">${formatDate(news.created_at || new Date())}</div>
-          <h3 class="news-card-title">${news.title || 'Noticia sin título'}</h3>
-          <p class="news-card-description">${news.content || news.description || 'Sin descripción disponible'}</p>
-          <div class="news-card-meta">
-            <span class="news-card-tag">${news.type || 'General'}</span>
-            <a href="#" class="news-card-read-more" onclick="event.stopPropagation();">Leer más →</a>
+      <article class="news-card" onclick="openNewsModal(${index})">
+        <div class="news-card__image">📰</div>
+        <div class="news-card__content">
+          <div class="news-card__date">${formatDate(news.created_at || news.published_at || new Date())}</div>
+          <h3 class="news-card__title">${news.title || 'Noticia sin título'}</h3>
+          <p class="news-card__description">${(news.content || news.description || 'Sin descripción disponible').replace(/<[^>]+>/g, ' ').slice(0, 180)}...</p>
+          <div class="news-card__meta">
+            <span class="news-card__tag">${(news.type || 'general').toUpperCase()}</span>
+            <a href="/noticia/${news.id}/" class="news-card__link" onclick="event.stopPropagation();">Leer más →</a>
           </div>
         </div>
-      </div>
+      </article>
     `).join('');
   }
-  
-  // Cargar información del torneo
+
   async function loadTournamentInfo() {
     try {
       const response = await fetch('/api/world-cup-info/');
       const data = await response.json();
-      
-      if (data.data && data.data.length > 0) {
+      if (data && data.data && data.data.length > 0) {
         const tournament = data.data[0];
         tournamentInfo.innerHTML = `
           <div class="tournament-info-item">
             <div class="tournament-info-label">Torneo</div>
-            <div class="tournament-info-value">${tournament.name || 'FIFA World Cup'}</div>
+            <div>${tournament.name || 'FIFA World Cup'}</div>
+          </div>
+          <div class="tournament-info-item">
+            <div class="tournament-info-label">Temporada</div>
+            <div>${tournament.season || '2026'}</div>
           </div>
           <div class="tournament-info-item">
             <div class="tournament-info-label">Equipos</div>
-            <div class="tournament-info-value">${tournament.teams_count || 32}</div>
-          </div>
-          <div class="tournament-info-item">
-            <div class="tournament-info-label">Próximo partido</div>
-            <div class="tournament-info-value">TBA</div>
-          </div>
-        `;
+            <div>${tournament.teams_count || 32}</div>
+          </div>`;
+      } else {
+        tournamentInfo.innerHTML = '<p>No se pudo cargar la información del torneo.</p>';
       }
     } catch (error) {
       console.error('Error loading tournament info:', error);
-      tournamentInfo.innerHTML = '<p>Error al cargar información</p>';
+      tournamentInfo.innerHTML = '<p>No se pudo cargar la información del torneo.</p>';
     }
   }
-  
-  // Cargar clasificación
+
   async function loadStandings() {
     try {
       const response = await fetch('/api/world-cup-standings/');
       const data = await response.json();
-      
-      if (data.data && data.data.length > 0) {
+      if (data && data.data && data.data.length > 0) {
         const standings = data.data.slice(0, 8);
         standingsInfo.innerHTML = `
           <table class="standings-table">
-            <thead>
-              <tr>
-                <th>Pos</th>
-                <th>Equipo</th>
-                <th>Pts</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr></thead>
             <tbody>
-              ${standings.map((team, i) => `
+              ${standings.map((team, index) => `
                 <tr>
-                  <td>${i + 1}</td>
-                  <td class="team-name">${team.team_name || 'TBD'}</td>
+                  <td>${index + 1}</td>
+                  <td>${team.team_name || team.name || 'Equipo'}</td>
                   <td>${team.points || 0}</td>
-                </tr>
-              `).join('')}
+                </tr>`).join('')}
             </tbody>
-          </table>
-        `;
+          </table>`;
+      } else {
+        standingsInfo.innerHTML = '<p>No se pudo cargar la clasificación.</p>';
       }
     } catch (error) {
       console.error('Error loading standings:', error);
-      standingsInfo.innerHTML = '<p>Error al cargar clasificación</p>';
+      standingsInfo.innerHTML = '<p>No se pudo cargar la clasificación.</p>';
     }
   }
-  
-  // Modal
+
   window.openNewsModal = function(index) {
     const news = allNews[index];
     if (!news) return;
-    
+
     modalBody.innerHTML = `
       <h2>${news.title || 'Noticia'}</h2>
-      <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;">
-        ${formatDate(news.created_at || new Date())}
-      </p>
-      <div style="line-height: 1.6; color: #666;">
-        ${news.content || news.description || 'Sin contenido disponible'}
-      </div>
+      <p style="color:#678; margin-bottom:1rem;">${formatDate(news.created_at || news.published_at || new Date())}</p>
+      <div style="line-height:1.7; color:#455468;">${news.content || news.description || 'Sin contenido disponible'}</div>
     `;
     modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
   };
-  
-  modalClose.addEventListener('click', () => {
+
+  function closeModal() {
     modal.classList.remove('active');
-  });
-  
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-    }
-  });
-  
-  // Filtros
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      filterBtns.forEach(b => b.classList.remove('active'));
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+  }
+
+  filterBtns.forEach(button => {
+    button.addEventListener('click', function() {
+      filterBtns.forEach(btn => btn.classList.remove('active'));
       this.classList.add('active');
-      
       const filter = this.dataset.filter;
       let filtered = allNews;
-      
       if (filter !== 'all') {
-        filtered = allNews.filter(news => 
-          (news.type || '').toLowerCase() === filter.toLowerCase()
-        );
+        filtered = allNews.filter(news => (news.type || 'general').toLowerCase() === filter.toLowerCase());
       }
-      
       renderNews(filtered);
     });
   });
-  
-  // Utilidades
+
   function formatDate(date) {
-    if (typeof date === 'string') {
-      date = new Date(date);
+    try {
+      return new Date(date).toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Fecha no disponible';
     }
-    return date.toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   }
-  
+
   function showError(message) {
     newsGrid.innerHTML = `
-      <div class="error-state" style="grid-column: 1 / -1;">
-        <div class="error-state-title">⚠️ ${message}</div>
-        <p>Por favor, intenta recargar la página o verifica tu conexión.</p>
-      </div>
-    `;
+      <div class="empty-state">
+        <h3>${message}</h3>
+        <p>Intenta recargar la página en unos instantes.</p>
+      </div>`;
   }
-  
-  // Cargar datos al iniciar
+
   loadNews();
 });
 </script>

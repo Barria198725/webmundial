@@ -2,9 +2,9 @@
 
 ## ✅ Lo que se implementó
 
-He agregado una página completa de noticias del Mundial FIFA 2026 que se integra con la API de SportMonks. La implementación incluye:
+He agregado una sección de noticias del Mundial FIFA 2026 que se integra con la API de SportMonks. La implementación incluye:
 
-### 1. **Página de Noticias** (`/noticias/`)
+### 1. **Sección de Noticias** (integrada en la página principal `/#news`)
 - Hero section personalizado
 - Sidebar con información del torneo y clasificación
 - Grid de noticias con tarjetas interactivas
@@ -14,8 +14,8 @@ He agregado una página completa de noticias del Mundial FIFA 2026 que se integr
 
 ### 2. **Servicios Backend**
 - **`core/services/sports_api_service.py`**: Servicio para conectar con SportMonks API
-  - Caché de 1 hora para optimizar solicitudes
-  - Métodos para obtener: noticias, información del mundial, clasificación, partidos
+   - Caché de 1 hora para optimizar solicitudes
+   - Métodos para obtener: noticias, información del mundial, clasificación, partidos
 
 ### 3. **Endpoints API**
 - `GET /api/world-cup-news/` - Obtiene noticias del mundial
@@ -23,7 +23,7 @@ He agregado una página completa de noticias del Mundial FIFA 2026 que se integr
 - `GET /api/world-cup-standings/` - Tabla de clasificación
 
 ### 4. **Menú Actualizado**
-- El enlace "Noticias" en la navegación ahora apunta a `/noticias/`
+- El enlace "Noticias" en la navegación apunta a la sección `#news` en la página principal.
 
 ## 🔧 Configuración Requerida
 
@@ -40,6 +40,7 @@ En el archivo `web/.env` (o crear si no existe), agrega:
 
 ```env
 SPORTMONKS_TOKEN=YOUR_TOKEN_HERE
+API_BASE_URL=http://api:3000
 ```
 
 Reemplaza `YOUR_TOKEN_HERE` con tu token de SportMonks.
