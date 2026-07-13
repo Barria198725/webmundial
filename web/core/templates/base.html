@@ -5,8 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Mundo Fútbol 2026{% endblock %}</title>
-  <link rel="icon" type="image/png" href="{% static 'images/estadio.png' %}" />
-  <link rel="apple-touch-icon" href="{% static 'images/estadio.png' %}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -26,12 +24,10 @@
       <div class="navbar__brand">MUNDO FÚTBOL 2026</div>
       <nav class="navbar__links">
         <a href="{% url 'index' %}">Inicio</a>
-        <a href="{% url 'index' %}#calendar">Partidos</a>
-        <a href="{% url 'index' %}#groups">Grupos</a>
-        <a href="{% url 'index' %}#teams">Equipos</a>
-        <a href="{% url 'index' %}#stadiums">Estadios</a>
+        <a href="{% url 'partidos' %}">Partidos</a>
+        <a href="{% url 'country_detail' country_code='USA' %}">Estadios</a>
         <a href="{% url 'legends' %}">Leyendas</a>
-        <a href="{% url 'news' %}">Noticias</a>
+        <a href="{% url 'news' %}" class="news-nav-link">Noticias</a>
         <a href="{% url 'history' %}">Historia</a>
       </nav>
       <div class="navbar__auth">

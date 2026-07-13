@@ -114,8 +114,8 @@ function setTeamCrest(imgElement, teamName, fallbackName) {
   if (!imgElement) return;
   const resolvedName = teamName || fallbackName || "Brazil";
   const filename = getTeamCrestFilename(resolvedName);
-  const fallbackPath = "/static/img/escudos selecciones/brazil-national-team-logo-footylogos.png";
-  const path = filename ? `/static/img/escudos selecciones/${filename}` : fallbackPath;
+  const fallbackPath = "/static/images/logos/brazil-national-team-logo-footylogos.png";
+  const path = filename ? `/static/images/logos/${filename}` : fallbackPath;
   imgElement.src = path;
   imgElement.alt = `${resolvedName} escudo`;
 }

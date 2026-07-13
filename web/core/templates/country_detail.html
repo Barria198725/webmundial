@@ -7,8 +7,15 @@
   <main class="page-container country-page">
     <section class="country-hero">
       <div class="country-hero__content">
-        <span class="eyebrow">Sede oficial</span>
-        <h1>{{ country.name }}</h1>
+        <span class="eyebrow">Sede oficial • FIFA 2026</span>
+        <h1>
+          {% if 'Sedes de' in country.name %}
+            {{ country.name|slice:"9:" }}
+          {% else %}
+            {{ country.name }}
+          {% endif %}
+          <span class="hero-year">2026</span>
+        </h1>
         <p>{{ country.summary }}</p>
         <div class="country-hero__badges">
           <span class="hero-badge">FIFA 2026</span>

@@ -42,6 +42,20 @@
   margin: 0;
 }
 
+.hero-year {
+  display: inline-block;
+  font-size: 0.65em;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 12px;
+  margin-left: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  vertical-align: baseline;
+}
+
 .country-hero__content p {
   max-width: 620px;
   font-size: 1rem;
