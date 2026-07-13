@@ -116,8 +116,16 @@ function setTeamCrest(imgElement, teamName, fallbackName) {
   const filename = getTeamCrestFilename(resolvedName);
   const fallbackPath = "/static/images/logos/brazil-national-team-logo-footylogos.png";
   const path = filename ? `/static/images/logos/${filename}` : fallbackPath;
-  imgElement.src = path;
-  imgElement.alt = `${resolvedName} escudo`;
+  // Si el elemento es una imagen, asignar `src` y `alt`.
+  // Si es un contenedor (div) con clase `escudo-bg`, usar `background-image`.
+  const tag = (imgElement.tagName || "").toUpperCase();
+  if (tag === "IMG") {
+    imgElement.src = path;
+    imgElement.alt = `${resolvedName} escudo`;
+  } else {
+    imgElement.style.backgroundImage = `url('${path}')`;
+    imgElement.setAttribute("aria-hidden", "true");
+  }
 }
 
 function formatSpanishDate(dateString) {

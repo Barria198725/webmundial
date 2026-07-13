@@ -1,57 +1,117 @@
-# Mas Mundial — Manual de despliegue y uso
+# Mundo Fútbol 2026 — Manual de despliegue y uso
 
 **Equipo de desarrollo:**
 - Irving Barria
-- Alejandro Castillo
+- Angelica Gaitán
 - Rene Vega
-- Algelica Gaitan
+- Alejandro Castillo
 
-Este repositorio incluye:
-- `api/`: API REST con Node.js, Express y TypeScript.
-- `web/`: frontend con Django que consume la API y muestra las páginas del Mundial.
-- MySQL: base de datos con script de inicialización en `api/db/init.sql`.
-- `docker-compose.yml`: orquesta `db`, `api` y `web`.
+Este repositorio contiene una plataforma web completa para el Mundial 2026.
+Incluye un frontend Django que muestra las secciones de inicio, partidos, sedes, leyendas y noticias,
+además de una API REST en Node.js/TypeScript que sirve datos de partidos, grupos y goleadores.
 
-## Resumen
+## Qué hace este proyecto
 
-La solución expone:
-- API catálogo en `http://127.0.0.1:3000/api/catalogo`
-- Frontend Django en `http://127.0.0.1:8000`
-- Página de partidos en `http://127.0.0.1:8000/partidos/`
-- Páginas de sedes en `http://127.0.0.1:8000/sedes/USA`, `.../MEX`, `.../CAN`
+- Muestra una página principal con el calendario del Mundial, la sección de predicciones y estadios.
+- Consume una API propia para obtener y renderizar partidos, grupos y goleadores.
+- Incluye una interfaz de login básica, perfil de usuario y un área de apuesta/predicción.
+- Tiene rutas de sedes para países anfitriones como USA, México y Canadá.
+- Usa MySQL para mantener datos de equipos, partidos, usuarios y estadísticas.
+
+## Tecnologías usadas
+
+- Backend API: Node.js, Express, TypeScript, MySQL.
+- Frontend: Django, HTML, CSS, JavaScript.
+- Contenedores: Docker y Docker Compose.
+- Estilos y scripts: archivos en `web/core/static/css/` y `web/core/static/js/`.
+
+## Estructura del proyecto
+
+- `docker-compose.yml`: orquesta los servicios `db`, `api` y `web`.
+- `api/`: API REST.
+  - `Dockerfile`
+  - `package.json`
+  - `tsconfig.json`
+  - `src/`: lógica de la API y repositorios.
+  - `db/init.sql`: esquema y datos iniciales.
+- `web/`: aplicación Django.
+  - `Dockerfile`
+  - `requirements.txt`
+  - `manage.py`
+  - `config/`: configuración de Django.
+  - `core/`: vistas, templates, estáticos y lógica del frontend.
+
+## URLs principales
+
+- Frontend Django: `http://127.0.0.1:8000/`
+- API: `http://127.0.0.1:3000`
+- Endpoint salud: `http://127.0.0.1:3000/health`
+- Inicio: `http://127.0.0.1:8000/`
+- Partidos: `http://127.0.0.1:8000/partidos/`
+- Login: `http://127.0.0.1:8000/login/`
+- Perfil: `http://127.0.0.1:8000/profile/`
+- Historial: `http://127.0.0.1:8000/history/`
+- Noticias: `http://127.0.0.1:8000/noticias/`
+- Leyendas: `http://127.0.0.1:8000/legends/`
+- Sedes:
+  - `http://127.0.0.1:8000/sedes/USA`
+  - `http://127.0.0.1:8000/sedes/MEX`
+  - `http://127.0.0.1:8000/sedes/CAN`
+- API de partidos: `http://127.0.0.1:3000/api/matches`
+- API de grupos: `http://127.0.0.1:3000/api/groups`
+- API de goleadores: `http://127.0.0.1:3000/api/scorers`
+- API de catálogo: `http://127.0.0.1:3000/api/catalogo`
+- Login API: `http://127.0.0.1:3000/auth/login`
+
+## Mapa de la página
+
+```text
+Inicio
+├── Página principal
+│   ├── Calendario del Mundial
+│   ├── Sección de predicciones
+│   └── Estadios y sedes
+├── Partidos
+│   └── Listado de partidos y grupos
+├── Sedes
+│   ├── USA
+│   ├── México
+│   └── Canadá
+├── Leyendas
+│   └── Información complementaria del torneo
+├── Noticias
+│   └── Contenido informativo y actualizaciones
+└── Usuario
+    ├── Login
+    └── Perfil y predicciones
+```
 
 ## Requisitos
 
 - Docker Desktop o Docker Engine con Docker Compose v2.
-- Opcional: Node.js y Python 3.13 para ejecución local sin Docker.
+- Opcional: Node.js y Python 3.13 si se quiere correr localmente sin Docker.
 
-## Ejecución recomendada (Docker)
+## Ejecución recomendada con Docker
 
-1. En la raíz del proyecto, ejecutar:
+1. En la raíz del proyecto:
 
 ```bash
 docker compose up --build -d
 ```
 
-2. Verificar los contenedores:
+2. Verificar contenedores:
 
 ```bash
 docker ps
 ```
 
-3. Probar la API:
-
-```bash
-curl -s http://127.0.0.1:3000/api/catalogo
-```
-
-4. Abrir el frontend en el navegador:
+3. Abrir el frontend:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-5. Para detener y eliminar contenedores y volúmenes:
+4. Detener y eliminar contenedores:
 
 ```bash
 docker compose down -v
@@ -78,91 +138,53 @@ pip install -r requirements.txt
 python manage.py runserver 0.0.0.0:8000
 ```
 
-## Verificaciones básicas
+## Uso y características principales
 
-- `GET http://127.0.0.1:3000/health` debe responder con estado 200.
-- `GET http://127.0.0.1:3000/api/catalogo` debe devolver JSON con el catálogo.
-- El frontend debe mostrar la página principal y permitir navegar a `/partidos/`.
-- Las sedes deben mostrarse en la sección de hosts con imágenes actualizadas.
+- Login de usuario y perfil básico.
+- Página de predicciones con partidos iniciales y entradas de score.
+- Tabla de goleadores estática y datos de partidos consumidos por la API.
+- Navegación entre secciones principales del Mundial.
+- Diseño responsive con estilos actualizados para el tema del sitio.
 
-## Arquitectura del proyecto
+## Verificaciones recomendadas
 
-- `api/` está organizada en capas: `domain`, `usecases`, `infra`, `presentation`.
-- `web/` es una aplicación Django con vistas, servicios y plantillas.
-- La base de datos MySQL se inicializa con `api/db/init.sql`.
+- `GET http://127.0.0.1:3000/health` responde 200.
+- `GET http://127.0.0.1:3000/api/matches` devuelve partidos.
+- `GET http://127.0.0.1:3000/api/groups` devuelve grupos.
+- `GET http://127.0.0.1:3000/api/scorers` devuelve goleadores.
+- El frontend muestra la página principal en `http://127.0.0.1:8000/`.
+- La ruta de partidos se carga en `http://127.0.0.1:8000/partidos/`.
+- Las páginas de sedes, noticias, login y perfil están disponibles en sus URLs correspondientes.
 
-## Estructura principal
+## Arquitectura y detalles
 
-- `docker-compose.yml`
-- `api/`
-  - `Dockerfile`
-  - `package.json`
-  - `tsconfig.json`
-  - `src/`
-  - `db/init.sql`
-- `web/`
-  - `Dockerfile`
-  - `requirements.txt`
-  - `manage.py`
-  - `config/`
-  - `core/`
+- `api/` usa un repositorio MySQL y capas de dominio, infra y presentación.
+- `web/` usa templates Django (`web/core/templates/`) y assets estáticos (`web/core/static/`).
+- El frontend consume `window.API_BASE_URL` para conectar con la API.
+- La base de datos inicializa tablas y datos básicos en `api/db/init.sql`.
 
-## Actualizaciones recientes
+## Equipo de trabajo
 
-### Nuevas funcionalidades
+- Irving Barria
+- Angelica Gaitán
+- Rene Vega
+- Alejandro Castillo
 
-- Agregada la página de `partidos` en `web/core/templates/partidos.html`.
-- Implementado un cargador limpio que usa solo `web/core/static/data/partidos.json`.
-- Se eliminó el contenido de prueba y los datos predeterminados incorrectos del frontend.
-- Actualizadas las imágenes de sedes en `web/core/templates/index.html` para usar los archivos correctos.
-- Agregado el recorrido de sedes en `web/core/urls.py` con `country_detail` para `USA`, `MEX` y `CAN`.
+## Funcionalidades pendientes
 
-### Importación de fixtures
+- Mejorar el flujo de login para validación completa con backend.
+- Agregar guardado real de apuestas en una API `POST /api/predictions`.
+- Implementar un dashboard de usuario con historial de predicciones.
+- Añadir autenticación y autorización completa para rutas privadas.
+- Agregar filtros y búsqueda en la sección de partidos.
 
-- Creado/actualizado `web/core/scripts/import_fixtures.py` para convertir el Excel de fixtures en JSON.
-- El script parsea las hojas de grupos `A` a `L` y genera `web/core/static/data/partidos.json` y `web/static/data/partidos.json`.
-- Ahora los resultados de la fase de grupos se cargan con los equipos correctos y los goles correctos.
+## Contribución
 
-### Contenido y datos
+Si quieres colaborar con el proyecto:
 
-- `web/core/static/data/partidos.json` contiene los partidos reales que se muestran en la página de `partidos`.
-- Las imágenes de sede ahora usan los archivos reales en `web/core/static/images/sedes/`.
-- Las páginas de detalle de sede usan portadas y vistas previas de estadio desde `web/core/data/country_data.py`.
+1. Crea una rama basada en `main`.
+2. Implementa funcionalidades o correcciones en `api/` y `web/`.
+3. Verifica el comportamiento con Docker o ejecución local.
+4. Envía un resumen de cambios con los archivos modificados.
 
-### Correcciones visuales
-
-- Página principal ajustada para ofrecer un diseño más limpio y ordenado.
-- Se mejoró la navegación de sedes y se corrigieron los iconos/rutas de imagen.
-- Se estructuró el HTML para facilitar la lectura y el mantenimiento.
-
-## Cómo probar los cambios adicionales
-
-1. Ejecutar el frontend:
-
-```bash
-cd web
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py runserver 0.0.0.0:8000
-```
-
-2. Abrir en el navegador:
-
-```text
-http://127.0.0.1:8000
-```
-
-3. Probar rutas clave:
-
-- `http://127.0.0.1:8000/partidos/`
-- `http://127.0.0.1:8000/sedes/USA`
-- `http://127.0.0.1:8000/sedes/MEX`
-- `http://127.0.0.1:8000/sedes/CAN`
-
-4. Si quieres regenerar partidos desde Excel:
-
-```bash
-python web/core/scripts/import_fixtures.py doc/Fixture-Copa-Mundial-FIFA-2026_ClasesExcel.xlsx
-```
-
+Final Web Mundial 

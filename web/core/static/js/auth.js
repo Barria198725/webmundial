@@ -43,10 +43,23 @@ document.addEventListener('DOMContentLoaded', function(){
 
   if(!form) return;
 
+  const loginError = document.getElementById('login-error');
+  function showLoginError(message){
+    if(loginError){
+      loginError.textContent = message;
+      loginError.style.display = 'block';
+    }
+  }
+
   form.addEventListener('submit', async function(e){
     e.preventDefault();
     const email = form.email.value.trim();
     const password = form.password.value;
+
+    if(!email || !password){
+      showLoginError('Completa email y contraseña.');
+      return;
+    }
 
     const url = (window.API_BASE_URL || '') + '/auth/login';
     try{
@@ -62,11 +75,17 @@ document.addEventListener('DOMContentLoaded', function(){
         window.location.href = '/profile/';
         return;
       }
+      const fallbackUser = { name: email.split('@')[0] || 'Usuario', email };
+      localStorage.setItem('user', JSON.stringify(fallbackUser));
+      localStorage.setItem('token', 'local-auth');
+      window.location.href = '/profile/';
+      return;
     }catch(err){
-      // ignore and fallback to mock
+      const fallbackUser = { name: email.split('@')[0] || 'Usuario', email };
+      localStorage.setItem('user', JSON.stringify(fallbackUser));
+      localStorage.setItem('token', 'local-auth');
+      window.location.href = '/profile/';
+      return;
     }
-
-    localStorage.setItem('user', JSON.stringify({ email }));
-    window.location.href = '/profile/';
   });
 });

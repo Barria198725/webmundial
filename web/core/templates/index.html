@@ -54,7 +54,7 @@
         <div class="match-card__teams">
           <div class="team team--home">
             <div class="team__shield team__shield--home">
-              <img id="lastHomeCrest" class="escudo-equipo" src="{% static 'images/logos/brazil-national-team-logo-footylogos.png' %}" alt="Brazil escudo" />
+              <div id="lastHomeCrest" class="escudo-equipo escudo-bg" style="background-image: url('{% static 'images/logos/brazil-national-team-logo-footylogos.png' %}');" aria-hidden="true"></div>
             </div>
             <span class="team__name" id="lastHomeTeam">BRAZIL</span>
           </div>
@@ -65,7 +65,7 @@
           </div>
           <div class="team team--away">
             <div class="team__shield team__shield--away">
-              <img id="lastAwayCrest" class="escudo-equipo" src="{% static 'images/logos/japan-national-team-logo-footylogos.png' %}" alt="Japan escudo" />
+              <div id="lastAwayCrest" class="escudo-equipo escudo-bg" style="background-image: url('{% static 'images/logos/japan-national-team-logo-footylogos.png' %}');" aria-hidden="true"></div>
             </div>
             <span class="team__name" id="lastAwayTeam">JAPAN</span>
           </div>
@@ -85,14 +85,14 @@
         <div class="match-card__teams">
           <div class="team team--home">
             <div class="team__shield team__shield--home">
-              <img id="nextHomeCrest" class="escudo-equipo" src="{% static 'images/logos/germany-national-team-logo-footylogos.png' %}" alt="Germany escudo" />
+              <div id="nextHomeCrest" class="escudo-equipo escudo-bg" style="background-image: url('{% static 'images/logos/germany-national-team-logo-footylogos.png' %}');" aria-hidden="true"></div>
             </div>
             <span class="team__name" id="nextHomeTeam">GERMANY</span>
           </div>
           <div class="match-vs">VS</div>
           <div class="team team--away">
             <div class="team__shield team__shield--away">
-              <img id="nextAwayCrest" class="escudo-equipo" src="{% static 'images/logos/paraguay-national-team-logo-footylogos.png' %}" alt="Paraguay escudo" />
+              <div id="nextAwayCrest" class="escudo-equipo escudo-bg" style="background-image: url('{% static 'images/logos/paraguay-national-team-logo-footylogos.png' %}');" aria-hidden="true"></div>
             </div>
             <span class="team__name" id="nextAwayTeam">PARAGUAY</span>
           </div>
@@ -157,15 +157,7 @@
         <h2 id="nombre-pais-seleccionado">Selecciona una sede para ver más</h2>
         <div id="contenedor-info" class="contenedor-sedes-dinamicas"></div>
       </div>
-      <div class="host-debut">
-        <span>Debutantes 2026</span>
-        <div class="host-debut__items">
-          <div>Qatar</div>
-          <div>Senegal</div>
-          <div>Japón</div>
-          <div>Ghana</div>
-        </div>
-      </div>
+      
     </section>
 
     <section id="groups" class="calendar-panel">
@@ -218,9 +210,32 @@
           <div class="section-header"><span>Grupos</span><h2>Tabla de Grupos (Mundial 2026)</h2></div>
           <div class="data-placeholder">Cargando tabla de grupos...</div>
         </div>
-        <div class="table-card" id="top-scorers">
-          <div class="section-header"><span>Goleadores</span><h2>Más letales</h2></div>
-          <div class="data-placeholder">Cargando goleadores...</div>
+        <div class="table-card table-card--modern" id="top-scorers">
+          <div class="section-header section-header--centered"><span>Goleadores</span><h2>Top 10 de máximos anotadores del Mundial 2026</h2></div>
+          <div class="top-scorers-table">
+            <table class="scorers-table">
+              <thead>
+                <tr>
+                  <th>Posición</th>
+                  <th>Jugador</th>
+                  <th>Selección</th>
+                  <th>Goles</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Lionel Messi</td><td>Argentina</td><td>8</td></tr>
+                <tr><td>1</td><td>Kylian Mbappé</td><td>Francia</td><td>8</td></tr>
+                <tr><td>3</td><td>Erling Haaland</td><td>Noruega</td><td>7</td></tr>
+                <tr><td>4</td><td>Harry Kane</td><td>Inglaterra</td><td>6</td></tr>
+                <tr><td>5</td><td>Jude Bellingham</td><td>Inglaterra</td><td>6</td></tr>
+                <tr><td>6</td><td>Ousmane Dembélé</td><td>Francia</td><td>5</td></tr>
+                <tr><td>7</td><td>Mikel Oyarzabal</td><td>España</td><td>4</td></tr>
+                <tr><td>8</td><td>Vinícius Júnior</td><td>Brasil</td><td>4</td></tr>
+                <tr><td>9</td><td>Ismaïla Sarr</td><td>Senegal</td><td>4</td></tr>
+                <tr><td>10</td><td>Julián Quiñones</td><td>México</td><td>4</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
@@ -228,10 +243,10 @@
     <section id="predictions" class="predictions">
       <div class="predictions__panel">
         <div class="section-header"><span>Predicciones</span><h2>¿Crees conocer el Mundial?</h2></div>
-        <div class="predictions__hero">
+        <div class="predictions__hero" id="predictions-hero">
           <div class="predictions__blur">
-            <p>Inicia sesión para guardar tus pronósticos y sumar puntos.</p>
-            <a class="button button--secondary" href="/login/">Iniciar Sesión</a>
+            <p id="predictions-message">Inicia sesión para guardar tus pronósticos y sumar puntos.</p>
+            <a class="button button--secondary" id="predictions-login-button" href="/login/">Iniciar Sesión</a>
           </div>
         </div>
       </div>
@@ -266,23 +281,6 @@
     </section>
 
     
-
-    <section class="accordion" id="history">
-      <div class="section-header"><span>Datos Curiosos</span><h2>Historia del Mundial (hasta 2026)</h2></div>
-      <p>La Copa del Mundo nació en 1930 y se convirtió en el torneo más importante del fútbol, con historias memorables, récords y selecciones que marcaron generaciones.</p>
-      <button class="accordion__toggle">Primer Mundial</button>
-      <div class="accordion__panel"><p>La primera edición se disputó en Uruguay en 1930 y fue ganada por la selección local.</p></div>
-      <button class="accordion__toggle">Mayor goleada</button>
-      <div class="accordion__panel"><p>La mayor goleada en una fase final fue Alemania 7-1 Brasil en la semifinal de 2014.</p></div>
-      <button class="accordion__toggle">Más títulos</button>
-      <div class="accordion__panel"><p>Brasil es el máximo ganador, con 5 títulos mundiales (1958, 1962, 1970, 1994 y 2002).</p></div>
-      <button class="accordion__toggle">Jugador con más goles</button>
-      <div class="accordion__panel"><p>Lionel Messi (Argentina) es el máximo goleador histórico de Mundiales con 21 tantos.</p></div>
-
-      <button class="accordion__toggle">Mundial con más asistentes</button>
-      <div class="accordion__panel"><p>El Mundial de Estados unidos 2026  fue uno de los más concurridos, con más de 3 millones de espectadores en total.</p></div>
-    </section>
-
 
   </main>
 {% endblock %}

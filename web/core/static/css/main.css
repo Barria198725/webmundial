@@ -251,10 +251,11 @@ button, input {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 60px 40px 100px;
+  padding: 80px 60px 120px;
   overflow: hidden;
   background: rgba(11, 15, 25, 0.9);
   animation: hero-zoom 25s ease-in-out infinite alternate;
+  z-index: 60;
 }
 
 .hero__background {
@@ -290,7 +291,7 @@ button, input {
 
 .hero__content {
   position: relative;
-  z-index: 2;
+  z-index: 70;
 }
 
 .dashboard-row {
@@ -300,7 +301,7 @@ button, input {
   align-items: stretch;
   gap: 20px;
   max-width: 1400px;
-  margin: 0 auto 14px;
+  margin: 40px auto 14px;
   padding: 0 20px;
 }
 
@@ -318,12 +319,10 @@ button, input {
 .sports-ticker {
   position: relative;
   overflow: hidden;
-  background: rgba(18, 24, 40, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: 14px;
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
 
   width: auto;
   margin: 0;
@@ -331,8 +330,8 @@ button, input {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  gap: 14px;
+  padding: 18px;
+  gap: 12px;
 }
 
 .final-countdown,
@@ -381,20 +380,21 @@ button, input {
 
 .final-countdown__cards {
   display: grid;
-  grid-template-columns: repeat(4, minmax(30px, 1fr));
-  gap: 4px;
-  padding: 6px 0;
+  grid-template-columns: repeat(4, minmax(80px, 1fr));
+  gap: 10px;
+  padding: 8px 4px;
   position: relative;
   z-index: 1;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 14px;
+  align-items: center;
 }
 
 .count-card {
   background: linear-gradient(135deg, #f8fbff 0%, #f2f7ff 100%);
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 12px;
-  padding: 8px 6px;
+  padding: 10px 8px;
   display: grid;
   gap: 2px;
   text-align: center;
@@ -408,7 +408,7 @@ button, input {
 }
 
 .count-card__value {
-  font-size: clamp(0.9rem, 1vw, 0.96rem);
+  font-size: clamp(0.85rem, 0.95vw, 0.9rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   color: var(--text);
@@ -421,6 +421,13 @@ button, input {
   text-transform: uppercase;
 }
 
+.final-countdown__cards .count-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .final-countdown__status {
   position: relative;
   z-index: 1;
@@ -428,19 +435,19 @@ button, input {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--white);
+  color: var(--primary-dark);
   font-size: 0.72rem;
   padding: 8px 12px;
-  border-radius: 16px;
-  background: rgba(0, 255, 135, 0.1);
-  border: 1px solid rgba(0, 255, 135, 0.16);
+  border-radius: 12px;
+  background: rgba(0, 189, 165, 0.06);
+  border: 1px solid rgba(0, 189, 165, 0.12);
 }
 
 .final-countdown .section-header span {
   text-transform: uppercase;
-  letter-spacing: 0.24em;
-  color: rgba(0, 255, 135, 0.9);
-  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--primary-dark);
+  font-size: 0.72rem;
 }
 
 @media (max-width: 1100px) {
@@ -450,12 +457,16 @@ button, input {
 }
 
 @media (max-width: 900px) {
-  .dashboard-top {
-    grid-template-columns: 1fr;
+  .dashboard-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+    align-items: start;
+    gap: 20px;
+    overflow: visible;
+    margin-top: -120px;
+    max-width: 1400px;
+    padding: 0 20px;
   }
-
-  .final-countdown .section-header {
-    padding: 18px 14px 12px;
   }
 
   .final-countdown__cards {
@@ -492,6 +503,107 @@ button, input {
     grid-template-columns: 1fr;
     padding: 12px 0 12px;
   }
+}
+
+/* Force-critical overrides to ensure compact icons and horizontal layout */
+.dashboard-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dashboard-row > * {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  z-index: 80;
+  background: var(--card-bg);
+}
+
+.dashboard-row .team__shield {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  padding: 6px;
+  box-sizing: content-box;
+}
+
+.dashboard-row .escudo-equipo {
+  width: 34px !important;
+  height: 34px !important;
+  object-fit: contain !important;
+}
+
+.final-countdown__cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(60px, 1fr));
+  gap: 10px;
+}
+
+.final-countdown__cards .count-card__value {
+  font-size: 1.05rem !important;
+}
+
+.final-countdown__cards .count-card {
+  padding: 10px 8px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* In case other CSS loads later, use higher specificity for top-row cards */
+.dashboard-row > .dashboard-card,
+.dashboard-row > .match-card,
+.dashboard-row > .final-countdown,
+.dashboard-row > .sports-ticker {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  padding: 20px !important;
+}
+
+.dashboard-card .section-header,
+.match-card .section-header {
+  margin-bottom: 12px;
+}
+
+/* hero image restored to show full-bleed background */
+.hero__image {
+  display: block !important;
+}
+
+/* Explicitly clamp known crest ids to avoid accidental scaling */
+#lastHomeCrest,
+#lastAwayCrest,
+#nextHomeCrest,
+#nextAwayCrest {
+  width: 34px !important;
+  height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
+  object-fit: contain !important;
+}
+
+/* Ensure crest images always scale to their shield container */
+.team__shield img,
+.team__shield .escudo-equipo {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* background-image based crest (fixed size, consistent) */
+.escudo-bg {
+  width: 44px;
+  height: 44px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
 }
 
 .match-highlights,
@@ -565,13 +677,13 @@ button, input {
 }
 
 .team__shield {
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
-    display: grid;
-    place-items: center;
-    background: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06), 0 8px 16px rgba(15, 23, 42, 0.06);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06), 0 6px 12px rgba(15, 23, 42, 0.06);
   }
 
   .team__shield--home {
@@ -587,15 +699,15 @@ button, input {
   }
 
   .escudo-equipo {
-    width: 50px;
-    height: 50px;
+    width: 34px;
+    height: 34px;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.18));
   }
 
 .team__name {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--text);
@@ -609,7 +721,7 @@ button, input {
 }
 
 .match-score__value {
-  font-size: clamp(1rem, 1vw, 1.1rem);
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
   font-weight: 800;
   color: var(--text);
 }
@@ -645,8 +757,25 @@ button, input {
 .match-vs {
   font-size: 0.86rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.9);
-  letter-spacing: 0.12em;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+/* Sports ticker small and clean */
+.sports-ticker {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sports-ticker .ticker {
+  overflow: hidden;
+}
+
+.sports-ticker .ticker-item {
+  padding: 8px 6px;
+  font-size: 0.86rem;
+  color: var(--text);
 }
 
 .match-card__counter {
@@ -1066,33 +1195,33 @@ button, input {
 }
 
 #history {
-  background: #000000;
-  color: #2ecc71;
+  background: rgba(242, 248, 255, 0.95);
+  color: #0f172a;
   border-radius: 24px;
-  border: 1px solid rgba(46, 204, 113, 0.25);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(59, 130, 246, 0.16);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
 }
 
 #history .section-header span,
 #history .section-header h2,
 #history p,
 #history .accordion__toggle {
-  color: #2ecc71;
+  color: #0f172a;
 }
 
 #history .accordion__toggle {
-  background: #111111;
-  border: 1px solid rgba(46, 204, 113, 0.25);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(59, 130, 246, 0.16);
 }
 
 #history .accordion__panel {
-  background: #0b0b0b;
+  background: rgba(248, 251, 255, 0.95);
 }
 
 #history strong,
 #history b,
 #history .section-header span {
-  color: #3498db;
+  color: #2563eb;
 }
 
 .legend-card {
